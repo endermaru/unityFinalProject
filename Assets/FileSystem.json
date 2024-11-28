@@ -1,0 +1,54 @@
+{
+  "Name": "Root",
+  "NodeType": "Folder",
+  "Children": [
+    {
+      "Name": "Folder1",
+      "NodeType": "Folder",
+      "Children": [
+        {
+          "Name": "File1.txt",
+          "NodeType": "TextFile",
+          "Content": "Hello, world!"
+        }
+      ]
+    },
+	{
+      "Name": "Folder112",
+      "NodeType": "Folder",
+      "Children": [
+        {
+          "Name": "File2.txt",
+          "NodeType": "TextFile",
+          "Content": "Hell3o, world!"
+        }
+      ]
+    },
+	{
+      "Name": "Desktop",
+      "NodeType": "Folder",
+      "Children": [
+        {
+          "Name": "MyComputer",
+          "NodeType": "Computer",
+        },
+		{
+		  "Name": "Folder1",
+		  "NodeType": "Folder",
+		  "Children": [
+			{
+			  "Name": "File1.txt",
+			  "NodeType": "TextFile",
+			  "Content": "Hello, world!"
+			}
+		  ]
+		},
+		{
+		  "Name": "File2.txt",
+		  "NodeType": "TextFile",
+		  "Content": "Hell3o, world!"
+		},
+      ]
+    },
+  ]
+}
