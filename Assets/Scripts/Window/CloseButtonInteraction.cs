@@ -50,9 +50,6 @@ public class CloseButtonInteraction : MonoBehaviour
 
     private void ClosePanel()
     {
-        if (panelToClose != null)
-        {
-            Destroy(panelToClose); // 창 GameObject를 삭제
-        }
+        SceneStackManager.ReturnToPreviousScene();
     }
 }

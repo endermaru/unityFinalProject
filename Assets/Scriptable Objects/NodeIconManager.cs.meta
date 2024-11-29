@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 09a2fc4cd0b125a45a946bbf8175a9ef
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - DefaultIcon: {fileID: 8149683057079042568, guid: e8e13269ac338244aaac63c4ca4ccae0, type: 3}
+  - FolderIcon: {fileID: 8631275813819379827, guid: 211cb2d4de3a6724b8e67cd0264aafc1, type: 3}
+  - TextFileIcon: {fileID: 8149683057079042568, guid: e8e13269ac338244aaac63c4ca4ccae0, type: 3}
+  - ComputerIcon: {fileID: 1152356169552002576, guid: ae5d4dab2e01cca44a91bb8d6866246f, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
