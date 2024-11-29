@@ -37,7 +37,7 @@ public class FileSystemManager : MonoBehaviour
         //saveFilePath = Path.Combine(Application.persistentDataPath, "FileSystem.json"); // 빌드 후에는 영구 저장 경로
         LoadFileSystem(); // 게임 시작 시 로드
         CurrentNode = Root;
-        PrintTree(Root);
+        //PrintTree(Root);
     }
 
     public void PrintTree(Node node, string indent = "")
@@ -107,9 +107,7 @@ public class FileSystemManager : MonoBehaviour
         if (nodeType == "Folder")
         {
             // FolderNode 생성
-            FolderNode folder;
-            if (name == "Desktop") folder = new FolderNode(name, null);
-            else folder = new FolderNode(name, parent);
+            FolderNode folder = new FolderNode(name, parent);
 
             // 자식 처리
             var childrenArray = jsonObject["Children"] as JArray;
@@ -129,7 +127,7 @@ public class FileSystemManager : MonoBehaviour
         }
         else if (nodeType == "Computer")
         {
-            var computer = new Node(name, parent, NodeT.Computer);
+            var computer = new Node(name, Root, NodeT.Computer);
 
             return computer;
         }
@@ -143,27 +141,29 @@ public class FileSystemManager : MonoBehaviour
         return null;
     }
 
-    public void ChangeCurrentNode(string childName)
+    public void ChangeCurrentNode(FolderNode folder)
     {
-        var folder = CurrentNode;
+        if (folder != null && folder.Name == FSConstants.ParentName) CurrentNode = folder.Parent as FolderNode;
+        else CurrentNode = folder;
+        //var folder = CurrentNode;
 
-        var nextNode = (FolderNode)folder.Children.Find(child => child is FolderNode && child.Name == childName);
+        //var nextNode = (FolderNode)folder.Children.Find(child => child is FolderNode && child.Name == childName);
 
-        if (nextNode != null)
-        {
-            if (childName == FSConstants.ParentName) // 부모로 이동
-            {
-                CurrentNode = (FolderNode)CurrentNode.Parent;
-            }
-            else // 다른 자식으로 이동
-            {
-                CurrentNode = nextNode;
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"No child named '{childName}' found in {folder.Name}.");
-        }
+        //if (nextNode != null)
+        //{
+        //    if (childName == FSConstants.ParentName) // 부모로 이동
+        //    {
+        //        CurrentNode = (FolderNode)CurrentNode.Parent;
+        //    }
+        //    else // 다른 자식으로 이동
+        //    {
+        //        CurrentNode = nextNode;
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.LogWarning($"No child named '{childName}' found in {folder.Name}.");
+        //}
     }
 
     private void InitializeFileSystem()
@@ -198,6 +198,7 @@ public class FileSystemManager : MonoBehaviour
         }
         return current;
     }
+
 
 }
 

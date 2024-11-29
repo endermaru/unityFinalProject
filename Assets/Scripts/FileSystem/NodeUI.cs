@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 
@@ -9,10 +10,22 @@ public class NodeUI : MonoBehaviour
     public TMP_Text NameText;
     public Image Icon;
     public Image HighlightBox;
+    public FileExplorerNodeManager fileExplorerNodeManager;
+
 
     public Node nodeData;
     private bool isPlayerInRange;
     private NodeIconManager iconManager;
+
+    private void Awake()
+    {
+        fileExplorerNodeManager = FileExplorerNodeManager.Instance;
+
+        if (fileExplorerNodeManager == null)
+        {
+            Debug.LogError("FileExplorerNodeManager 인스턴스를 찾을 수 없습니다.");
+        }
+    }
 
     public void Initialize(Node node, NodeIconManager manager)
     {
@@ -52,6 +65,29 @@ public class NodeUI : MonoBehaviour
     public bool IsPlayerInRange()
     {
         return isPlayerInRange;
+    }
+
+    public void Update()
+    {
+        if (IsPlayerInRange() && Input.GetKeyDown(KeyCode.E)) {
+
+            switch (nodeData.NodeType)
+            {
+                case NodeT.Folder:
+                    {
+                        FileSystemManager.Instance.ChangeCurrentNode(nodeData as FolderNode);
+                        break;
+                    }
+                case NodeT.Computer:
+                    {
+                        FileSystemManager.Instance.ChangeCurrentNode(FileSystemManager.Instance.Root);
+                        break;
+                    }
+
+
+            }
+            fileExplorerNodeManager.DisplayNodes();
+        }
     }
 }
 

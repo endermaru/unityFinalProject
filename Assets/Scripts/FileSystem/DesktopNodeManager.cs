@@ -19,11 +19,12 @@ public class DesktopNodeManager : MonoBehaviour
         // 각 자식 노드에 대해 ui 생성
         foreach (Node childnode in childnodes)
         {
+            if (childnode.Name == FSConstants.ParentName) continue;
             // 프리팹 생성
             GameObject nodeuiobject = Instantiate(NodeUIPrefab, NodeContainer);
 
             // nodeui 초기화
-            NodeUI nodeUI = nodeuiobject.GetComponent<NodeUI>();
+            NodeUIDesktop nodeUI = nodeuiobject.GetComponent<NodeUIDesktop>();
             if (nodeUI != null)
             {
                 nodeUI.Initialize(childnode, NodeIconManager);
