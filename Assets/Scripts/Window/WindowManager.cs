@@ -3,27 +3,108 @@ using UnityEngine;
 
 public class WindowManager : MonoBehaviour
 {
-    private List<GameObject> activeWindows = new List<GameObject>(); // 활성 창 리스트
+    public static WindowManager Instance { get; private set; }
 
-    public void RegisterWindow(GameObject window)
-    {
-        // 창 등록 (리스트 맨 위에 추가)
-        activeWindows.Add(window);
-    }
+    private List<Canvas> activeWindows = new List<Canvas>(); // 활성 창 리스트
+    public Canvas Desktop;
+    public Canvas FileExplorer;
+    public List<Canvas> AllWindows;
 
-    public void UnregisterWindow(GameObject window)
+    public Canvas whoseCanvas(GameObject obj)
     {
-        // 창 제거
-        activeWindows.Remove(window);
-    }
-
-    public GameObject GetTopWindow()
-    {
-        // 가장 위의 창 반환
-        if (activeWindows.Count > 0)
+        Transform current = obj.transform;
+        while (current != null)
         {
-            return activeWindows[activeWindows.Count - 1];
+            foreach (Canvas c in activeWindows) 
+            {
+                if (current == c.transform) return c;
+            }
+            current = current.parent;
         }
         return null;
+    }
+
+    public List<GameObject> FrontObjects(List<GameObject> list)
+    {
+        Canvas max = Desktop;
+        foreach (var obj in list)
+        {
+            var window = whoseCanvas(obj);
+            if (window.sortingOrder > max.sortingOrder)
+            {
+                max = window;
+            }
+        }
+        List<GameObject> ret = new List<GameObject>
+        {
+            max.gameObject
+        };
+        BringToFront(max);
+        foreach (GameObject obj in list)
+        {
+            if (obj != max.gameObject && whoseCanvas(obj)==max) ret.Add(obj);
+        }
+        return ret;
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void Start()
+    {
+        openWindow(Desktop);
+        Debug.Log(Desktop.sortingOrder);
+        Debug.Log(FileExplorer.sortingOrder);
+        FileExplorer.enabled = false;
+    }
+
+    public void openWindow(Canvas window)
+    {
+        Debug.Log("Open");
+        // 새 창 추가 시, 가장 상단에 배치
+        int maxSortingOrder = GetMaxSortingOrderCanvas().sortingOrder;
+        window.sortingOrder = maxSortingOrder + 1;
+
+        activeWindows.Add(window);
+        window.enabled = true; // 새 창 활성화
+    }
+
+    public void closeWindow(Canvas window)
+    {
+        activeWindows.Remove(window);
+        window.enabled = false;
+    }
+
+    public void BringToFront(Canvas window)
+    {
+        if (activeWindows.Contains(window))
+        {
+            // 가장 높은 sortingOrder로 설정
+            int maxSortingOrder = GetMaxSortingOrderCanvas().sortingOrder;
+            window.sortingOrder = maxSortingOrder + 1;
+        }
+    }
+
+    private Canvas GetMaxSortingOrderCanvas()
+    {
+        Canvas maxOrderCanvas = Desktop;
+        foreach (var window in activeWindows)
+        {
+            if (window.sortingOrder > maxOrderCanvas.sortingOrder)
+            {
+                maxOrderCanvas = window;
+            }
+        }
+        return maxOrderCanvas;
     }
 }

@@ -84,17 +84,17 @@ public class FileSystemManager : MonoBehaviour
                 // 루트 노드를 생성
                 Root = ParseNode(rootObject, null) as FolderNode;
 
-                Debug.Log($"FileSystem loaded from {saveFilePath}");
+                //Debug.Log($"FileSystem loaded from {saveFilePath}");
             }
             else
             {
-                Debug.LogWarning("Save file not found. Initializing new file system.");
+                //Debug.LogWarning("Save file not found. Initializing new file system.");
                 InitializeFileSystem();
             }
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"Failed to load FileSystem: {ex.Message}");
+            //Debug.LogError($"Failed to load FileSystem: {ex.Message}");
             InitializeFileSystem();
         }
     }
@@ -145,25 +145,6 @@ public class FileSystemManager : MonoBehaviour
     {
         if (folder != null && folder.Name == FSConstants.ParentName) CurrentNode = folder.Parent as FolderNode;
         else CurrentNode = folder;
-        //var folder = CurrentNode;
-
-        //var nextNode = (FolderNode)folder.Children.Find(child => child is FolderNode && child.Name == childName);
-
-        //if (nextNode != null)
-        //{
-        //    if (childName == FSConstants.ParentName) // 부모로 이동
-        //    {
-        //        CurrentNode = (FolderNode)CurrentNode.Parent;
-        //    }
-        //    else // 다른 자식으로 이동
-        //    {
-        //        CurrentNode = nextNode;
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.LogWarning($"No child named '{childName}' found in {folder.Name}.");
-        //}
     }
 
     private void InitializeFileSystem()

@@ -67,27 +67,5 @@ public class NodeUI : MonoBehaviour
         return isPlayerInRange;
     }
 
-    public void Update()
-    {
-        if (IsPlayerInRange() && Input.GetKeyDown(KeyCode.E)) {
-
-            switch (nodeData.NodeType)
-            {
-                case NodeT.Folder:
-                    {
-                        FileSystemManager.Instance.ChangeCurrentNode(nodeData as FolderNode);
-                        break;
-                    }
-                case NodeT.Computer:
-                    {
-                        FileSystemManager.Instance.ChangeCurrentNode(FileSystemManager.Instance.Root);
-                        break;
-                    }
-
-
-            }
-            fileExplorerNodeManager.DisplayNodes();
-        }
-    }
 }
 

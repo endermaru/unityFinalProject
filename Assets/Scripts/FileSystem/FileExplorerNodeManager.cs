@@ -41,6 +41,8 @@ public class FileExplorerNodeManager : MonoBehaviour
         // 각 자식 노드에 대해 ui 생성
         foreach (Node childnode in childnodes)
         {
+            if (childnode.NodeType == NodeT.Computer) continue;
+
             // 프리팹 생성
             GameObject nodeuiobject = Instantiate(NodeUIPrefab, NodeContainer);
 

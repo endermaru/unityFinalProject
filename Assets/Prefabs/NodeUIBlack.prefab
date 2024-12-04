@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: 8490199938231008584}
   m_Layer: 5
   m_Name: NodeUIBlack
-  m_TagString: Untagged
+  m_TagString: NodeUIBlack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -419,6 +419,7 @@ MonoBehaviour:
   NameText: {fileID: 8081004486442504237}
   Icon: {fileID: 6720203591118632434}
   HighlightBox: {fileID: 3586275411391615140}
+  fileExplorerNodeManager: {fileID: 0}
 --- !u!222 &5754400520924191043
 CanvasRenderer:
   m_ObjectHideFlags: 0
