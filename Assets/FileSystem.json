@@ -24,6 +24,7 @@
 		{
 		  "Name": "File2.txt",
 		  "NodeType": "TextFile",
+		  "Password": "123",
 		  "Content": "Hell3o, world!"
 		},
       ]

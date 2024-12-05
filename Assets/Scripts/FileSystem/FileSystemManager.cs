@@ -92,7 +92,7 @@ public class FileSystemManager : MonoBehaviour
                 InitializeFileSystem();
             }
         }
-        catch (System.Exception ex)
+        catch (Exception)
         {
             //Debug.LogError($"Failed to load FileSystem: {ex.Message}");
             InitializeFileSystem();
@@ -135,7 +135,8 @@ public class FileSystemManager : MonoBehaviour
         {
             // FileNode »ý¼º
             string content = jsonObject["Content"]?.ToString();
-            return new FileNode(name, parent, content);
+            string password = jsonObject["Password"]?.ToString();
+            return new FileNode(name, parent, content, password);
         }
 
         return null;

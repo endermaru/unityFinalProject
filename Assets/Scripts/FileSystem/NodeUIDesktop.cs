@@ -55,15 +55,5 @@ public class NodeUIDesktop : MonoBehaviour
         return isPlayerInRange;
     }
 
-    //public void Update()
-    //{
-    //    if (IsPlayerInRange() && Input.GetKeyDown(KeyCode.E)) {
-    //        Debug.Log(nodeData.Name);
-    //        if (nodeData.NodeType == NodeT.Computer)
-    //        {
-    //            SceneStackManager.LoadScene("FileExplorerScene");
-    //        }
-    //    }
-    //}
 }
 

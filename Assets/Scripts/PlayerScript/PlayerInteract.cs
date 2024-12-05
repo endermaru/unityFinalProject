@@ -34,25 +34,6 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    if (currentNodeUI != null)
-        //    {
-        //        //Camera mainCamera = Camera.main;
-        //        //if (mainCamera != null)
-        //        //{
-        //        //    mainCamera.gameObject.SetActive(false); // 카메라 비활성화
-        //        //}
-        //        Debug.Log($"현재 노드 이름: {currentNodeUI.nodeData.Name}");
-
-        //        //SceneManager.LoadScene("FileExplorerScene");
-        //        SceneStackManager.LoadScene("FileExplorerScene");
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("노드와 상호작용할 수 없습니다.");
-        //    }
-        //}
         if (Input.GetKeyDown(KeyCode.E))
         {
             List<GameObject> fronts = WindowManager.Instance.FrontObjects(collidingObjects);
@@ -76,6 +57,20 @@ public class PlayerInteract : MonoBehaviour
                                 WindowManager.Instance.openWindow(WindowManager.Instance.FileExplorer);
                                 FileExplorerNodeManager.Instance.DisplayNodes();
                                 break;
+                            case NodeT.TextFile:
+                                FileNode f = nodeD.nodeData as FileNode;
+                                if (f.Password != null)
+                                {
+                                    PassWordManager.Instance.setFile(f);
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.PassWordWindow);
+                                }
+                                else
+                                {
+                                    TextEditorManager.Instance.setTextFile(nodeD.nodeData as FileNode);
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.TextEditor);
+                                    TextEditorManager.Instance.Display();
+                                }
+                                break;
                         }
                         break;
 
@@ -88,6 +83,20 @@ public class PlayerInteract : MonoBehaviour
                                 FileSystemManager.Instance.ChangeCurrentNode(node.nodeData as FolderNode);
                                 FileExplorerNodeManager.Instance.DisplayNodes();
                                 break;
+                            case NodeT.TextFile:
+                                FileNode f = node.nodeData as FileNode;
+                                if (f.Password != null)
+                                {
+                                    PassWordManager.Instance.setFile(f);
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.PassWordWindow);
+                                }
+                                else
+                                {
+                                    TextEditorManager.Instance.setTextFile(node.nodeData as FileNode);
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.TextEditor);
+                                    TextEditorManager.Instance.Display();
+                                }
+                                break;
 
                         }
                         break;
@@ -95,33 +104,34 @@ public class PlayerInteract : MonoBehaviour
                     case "CloseButton":
                         WindowManager.Instance.closeWindow(frontCanvas);
                         break;
+
+                    case "OkButton":
+                        
+                        
+                        if (PassWordManager.Instance.CheckPassword())
+                        {
+                            FileNode nodePW = PassWordManager.Instance.node;
+                            WindowManager.Instance.closeWindow(WindowManager.Instance.PassWordWindow);
+                            TextEditorManager.Instance.setTextFile(nodePW);
+                            WindowManager.Instance.openWindow(WindowManager.Instance.TextEditor);
+                            TextEditorManager.Instance.Display();
+                        }
+                        else
+                        {
+                            PassWordManager.Instance.invalid.SetActive(true);
+                        }
+                        PassWordManager.Instance.ResetContent();
+                        break;
                 }
             }
         }
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    NodeUI node = collision.GetComponent<NodeUI>();
-    //    if (node != null && node.IsPlayerInRange())
-    //    {
-    //        currentNodeUI = node;
-    //    }
-    //}
-
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    NodeUI node = collision.GetComponent<NodeUI>();
-    //    if (node != null && currentNodeUI == node)
-    //    {
-    //        currentNodeUI = null;
-    //    }
-    //}
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 충돌 시작 시 오브젝트 추가
-        if (IsObjectVisible(other.gameObject) && 
+        if (/*IsObjectVisible(other.gameObject) &&*/ 
                 !collidingObjects.Contains(other.gameObject))
         {
             collidingObjects.Add(other.gameObject);
@@ -132,7 +142,7 @@ public class PlayerInteract : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         // 충돌 끝날 시 오브젝트 제거
-        if (IsObjectVisible(other.gameObject) &&
+        if (/*IsObjectVisible(other.gameObject) &&*/
                 collidingObjects.Contains(other.gameObject))
         {
             collidingObjects.Remove(other.gameObject);

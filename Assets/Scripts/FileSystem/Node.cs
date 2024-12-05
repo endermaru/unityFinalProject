@@ -57,10 +57,12 @@ public class FolderNode : Node
 
 public class FileNode : Node
 {
-    public FileNode(string name, Node parent, string content)
+    public FileNode(string name, Node parent, string content, string password)
         : base(name, parent, NodeT.TextFile)
     {
         Content = content;
+        Password = password;
     }
     public string Content { get; set; }
+    public string Password { get; set; }
 }

@@ -7,6 +7,7 @@ public class FileExplorerNodeManager : MonoBehaviour
     public GameObject NodeUIPrefab;
     public Transform NodeContainer;
     public NodeIconManager NodeIconManager;
+    public GameObject inactiveHeader;
 
     public static FileExplorerNodeManager Instance { get; private set; }
 
@@ -20,6 +21,7 @@ public class FileExplorerNodeManager : MonoBehaviour
         {
             Destroy(gameObject); // 중복 방지
         }
+        inactiveHeader.GetComponent<Canvas>().enabled = false;
     }
 
 
@@ -32,8 +34,6 @@ public class FileExplorerNodeManager : MonoBehaviour
         }
 
         FolderNode current = (FolderNode)FileSystemManager.Instance.CurrentNode;
-        Debug.Log(current.Name);
-
 
         // 자식 노드 리스트 가져오기
         List<Node> childnodes = current.Children;
@@ -58,4 +58,5 @@ public class FileExplorerNodeManager : MonoBehaviour
     {
         DisplayNodes();
     }
+
 }
