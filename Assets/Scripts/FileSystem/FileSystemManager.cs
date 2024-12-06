@@ -146,6 +146,10 @@ public class FileSystemManager : MonoBehaviour
             string password = jsonObject["Password"]?.ToString();
             return new ZipNode(name, parent, ZipRoot, password);
         }
+        else if (nodeType == "Exe")
+        {
+            return new Node(name, parent, NodeT.Exe);
+        }
 
         return null;
     }

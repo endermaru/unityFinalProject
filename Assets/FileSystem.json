@@ -11,6 +11,10 @@
           "NodeType": "Computer",
         },
 		{
+			"Name":"go.exe",
+			"NodeType":"Exe",
+		},
+		{
 		  "Name": "Folder1",
 		  "NodeType": "Folder",
 		  "Children": [

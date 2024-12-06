@@ -9,6 +9,8 @@ MonoImporter:
   - TextFileIcon: {fileID: 8149683057079042568, guid: e8e13269ac338244aaac63c4ca4ccae0, type: 3}
   - ComputerIcon: {fileID: 1152356169552002576, guid: ae5d4dab2e01cca44a91bb8d6866246f, type: 3}
   - ZipFileIcon: {fileID: 6137907615203100133, guid: 345a450ba3545d9458c40459b8a419e0, type: 3}
+  - EmailIcon: {fileID: 754352307031186287, guid: 56d863d30cf30034a9204a4b2e796fce, type: 3}
+  - ExeIcon: {fileID: -5484203586563927883, guid: 1e7b75fb80902d84283a65b9c2138d29, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

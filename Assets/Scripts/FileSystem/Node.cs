@@ -9,6 +9,8 @@ public enum NodeT
     TextFile,
     Computer,
     ZipFile,
+    Email,
+    Exe,
 }
 
 public class Node

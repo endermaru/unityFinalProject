@@ -142,7 +142,7 @@ public class PlayerInteract : MonoBehaviour
                                     WindowManager.Instance.openWindow(WindowManager.Instance.ZipExtractWindow);
                                    
                                 }
-                                
+                                PassWordManager.Instance.resetNode();
                             }
 
                             PassWordManager.Instance.ResetContent();

@@ -55,6 +55,13 @@ public class PassWordManager : MonoBehaviour
                 }
             }
         }
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            if (Content.text.Length > 0)
+            {
+                Content.text = Content.text.Substring(0, Content.text.Length - 1);
+            }
+        }
     }
 
     public void ResetContent()
@@ -80,6 +87,12 @@ public class PassWordManager : MonoBehaviour
     public void ShowInvalid()
     {
         StartCoroutine(BlinkCoroutine());
+    }
+
+    public void resetNode()
+    {
+        node = null;
+        nodeZip = null;
     }
 
     private IEnumerator BlinkCoroutine()
