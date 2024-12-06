@@ -5,27 +5,15 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 
-public class NodeUI : MonoBehaviour
+public class NodeUITaskbar : MonoBehaviour
 {
     public TMP_Text NameText;
     public Image Icon;
     public Image HighlightBox;
-    public FileExplorerNodeManager fileExplorerNodeManager;
-
 
     public Node nodeData;
     private bool isPlayerInRange;
     private NodeIconManager iconManager;
-
-    private void Awake()
-    {
-        fileExplorerNodeManager = FileExplorerNodeManager.Instance;
-
-        if (fileExplorerNodeManager == null)
-        {
-            Debug.LogError("FileExplorerNodeManager 인스턴스를 찾을 수 없습니다.");
-        }
-    }
 
     public void Initialize(Node node, NodeIconManager manager)
     {

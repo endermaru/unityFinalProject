@@ -5,28 +5,7 @@ using UnityEngine.SceneManagement;
 public class PlayerInteract : MonoBehaviour
 {
     private List<GameObject> collidingObjects = new List<GameObject>();
-
-    private NodeUI currentNodeUI;
-
-    
-    private bool IsObjectVisible(GameObject obj)
-    {
-        Renderer renderer = obj.GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            return renderer.enabled; // Renderer가 활성 상태인지 확인
-        }
-
-        CanvasRenderer canvasRenderer = obj.GetComponent<CanvasRenderer>();
-        if (canvasRenderer != null)
-        {
-            return canvasRenderer.cull == false; // CanvasRenderer가 숨겨지지 않았는지 확인
-        }
-
-        // 렌더러가 없으면 항상 "보이지 않음"으로 간주
-        return false;
-    }
-
+  
     public void Start()
     {
         collidingObjects.Clear();
@@ -44,6 +23,7 @@ public class PlayerInteract : MonoBehaviour
                 {
                     // 바탕화면의 아이콘
                     case "NodeUI":
+                        
                         NodeUIDesktop nodeD = obj.GetComponent<NodeUIDesktop>();
                         switch (nodeD.nodeData.NodeType)
                         {
@@ -69,6 +49,19 @@ public class PlayerInteract : MonoBehaviour
                                     TextEditorManager.Instance.setTextFile(nodeD.nodeData as FileNode);
                                     WindowManager.Instance.openWindow(WindowManager.Instance.TextEditor);
                                     TextEditorManager.Instance.Display();
+                                }
+                                break;
+                            case NodeT.ZipFile:
+                                ZipNode zipNode = nodeD.nodeData as ZipNode;
+                                ZipExtractManager.Instance.setFile(zipNode);
+                                if (zipNode.Password != null)
+                                {
+                                    PassWordManager.Instance.setFile(zipNode);
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.PassWordWindow);
+                                }
+                                else
+                                {
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.ZipExtractWindow);
                                 }
                                 break;
                         }
@@ -98,7 +91,32 @@ public class PlayerInteract : MonoBehaviour
                                 }
                                 break;
 
+                            case NodeT.ZipFile:
+                                ZipNode zipNode = node.nodeData as ZipNode;
+                                ZipExtractManager.Instance.setFile(zipNode);
+                                if (zipNode.Password != null)
+                                {
+                                    PassWordManager.Instance.setFile(zipNode);
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.PassWordWindow);
+                                }
+                                else
+                                {
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.ZipExtractWindow);
+                                }
+                                break;
                         }
+                        break;
+                    case "NodeUITaskbar":
+                        NodeUITaskbar n =  obj.GetComponent<NodeUITaskbar>();
+                        Canvas c = n.nodeData.NodeType switch
+                        {
+                            NodeT.Folder => WindowManager.Instance.FileExplorer,
+                            NodeT.TextFile => WindowManager.Instance.TextEditor,
+                            NodeT.ZipFile => WindowManager.Instance.ZipExtractWindow,
+                            _ => null,
+                        };
+                        if (c == null) break;
+                        WindowManager.Instance.openWindow(c);
                         break;
 
                     case "CloseButton":
@@ -106,21 +124,39 @@ public class PlayerInteract : MonoBehaviour
                         break;
 
                     case "OkButton":
-                        
-                        
-                        if (PassWordManager.Instance.CheckPassword())
+                        if (frontCanvas == WindowManager.Instance.PassWordWindow)
                         {
-                            FileNode nodePW = PassWordManager.Instance.node;
-                            WindowManager.Instance.closeWindow(WindowManager.Instance.PassWordWindow);
-                            TextEditorManager.Instance.setTextFile(nodePW);
-                            WindowManager.Instance.openWindow(WindowManager.Instance.TextEditor);
-                            TextEditorManager.Instance.Display();
+                            if (PassWordManager.Instance.CheckPassword())
+                            {
+                                if (PassWordManager.Instance.node?.NodeType == NodeT.TextFile)
+                                {
+                                    FileNode nodePW = PassWordManager.Instance.node;
+                                    WindowManager.Instance.closeWindow(WindowManager.Instance.PassWordWindow);
+                                    TextEditorManager.Instance.setTextFile(nodePW);
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.TextEditor);
+                                    TextEditorManager.Instance.Display();
+                                }
+                                else if (PassWordManager.Instance.nodeZip?.NodeType == NodeT.ZipFile)
+                                {
+                                    WindowManager.Instance.closeWindow(WindowManager.Instance.PassWordWindow);
+                                    WindowManager.Instance.openWindow(WindowManager.Instance.ZipExtractWindow);
+                                   
+                                }
+                                
+                            }
+
+                            PassWordManager.Instance.ResetContent();
                         }
-                        else
+                        else if (frontCanvas == WindowManager.Instance.ZipExtractWindow)
                         {
-                            PassWordManager.Instance.invalid.SetActive(true);
+                            ZipNode ZipFile = ZipExtractManager.Instance.node;
+                            FolderNode parent = ZipFile.Parent as FolderNode;
+                            parent.AddChild(ZipFile.ZipRoot);
+                            FileExplorerNodeManager.Instance.DisplayNodes();
+                            DesktopNodeManager.Instance.DisplayDesktopNodes();
+                            WindowManager.Instance.closeWindow(WindowManager.Instance.ZipExtractWindow);
                         }
-                        PassWordManager.Instance.ResetContent();
+                       
                         break;
                 }
             }

@@ -2,13 +2,19 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class PassWordManager : MonoBehaviour
 {
     public static PassWordManager Instance { get; private set; }
-    public FileNode node;
+    public FileNode node=null;
+    public ZipNode nodeZip=null;
     public TMP_Text Content;
+
     public GameObject invalid;
+    public float blinkDuration = 1f; // ±ôºýÀÌ´Â ÃÑ ½Ã°£
+    public float blinkInterval = 0.2f; // ±ôºýÀÌ´Â °£°Ý
+
 
     private void Awake()
     {
@@ -23,9 +29,17 @@ public class PassWordManager : MonoBehaviour
         }
         invalid.SetActive(false);
     }
-    public void setFile(FileNode f)
+    public void setFile(Node f)
     {
-        node = f;
+        if (f.NodeType == NodeT.TextFile)
+        {
+            node = f as FileNode;
+        }
+        else if (f.NodeType == NodeT.ZipFile)
+        {
+            nodeZip = f as ZipNode;
+        }
+        
         ResetContent();
         invalid.SetActive(false);
     }
@@ -50,6 +64,37 @@ public class PassWordManager : MonoBehaviour
 
     public bool CheckPassword()
     {
-        return Content.text == node.Password;
+        bool result = false;
+        if (node != null)
+        {
+            result = (Content.text == node.Password);
+        }
+        else if (nodeZip != null)
+        {
+            result = (Content.text == nodeZip.Password);
+        }
+        if (!result) ShowInvalid();
+        return result;
     }
+
+    public void ShowInvalid()
+    {
+        StartCoroutine(BlinkCoroutine());
+    }
+
+    private IEnumerator BlinkCoroutine()
+    {
+        float endTime = Time.time + blinkDuration;
+        bool isVisible = true;
+
+        while (Time.time < endTime)
+        {
+            isVisible = !isVisible;
+            invalid.SetActive(isVisible);
+            yield return new WaitForSeconds(blinkInterval);
+        }
+
+        invalid.SetActive(true);
+    }
+
 }

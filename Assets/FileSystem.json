@@ -27,6 +27,23 @@
 		  "Password": "123",
 		  "Content": "Hell3o, world!"
 		},
+		{
+			"Name":"myZip.zip",
+			"NodeType": "ZipFile",
+			"Password":"456",
+			"Content": {
+				"Name": "myZip",
+				"NodeType": "Folder",
+				"Children": [
+					{
+					  "Name": "File1.txt",
+					  "NodeType": "TextFile",
+					  "Content": "Hello, world!"
+					}
+				]
+			}
+			
+		}
       ]
     },
     {

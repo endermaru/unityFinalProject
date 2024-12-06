@@ -16,3 +16,4 @@ MonoBehaviour:
   FolderIcon: {fileID: 8631275813819379827, guid: 211cb2d4de3a6724b8e67cd0264aafc1, type: 3}
   TextFileIcon: {fileID: 8149683057079042568, guid: e8e13269ac338244aaac63c4ca4ccae0, type: 3}
   ComputerIcon: {fileID: 1152356169552002576, guid: ae5d4dab2e01cca44a91bb8d6866246f, type: 3}
+  ZipFileIcon: {fileID: 6137907615203100133, guid: 345a450ba3545d9458c40459b8a419e0, type: 3}

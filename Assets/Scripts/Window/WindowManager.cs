@@ -6,11 +6,13 @@ public class WindowManager : MonoBehaviour
 {
     public static WindowManager Instance { get; private set; }
 
-    private List<Canvas> activeWindows = new List<Canvas>(); // 활성 창 리스트
+    public List<Canvas> activeWindows = new List<Canvas>(); // 활성 창 리스트
     public Canvas Desktop;
     public Canvas FileExplorer;
     public Canvas TextEditor;
     public Canvas PassWordWindow;
+    public Canvas Taskbar;
+    public Canvas ZipExtractWindow;
     public List<Canvas> AllWindows;
 
     private void Awake()
@@ -26,7 +28,7 @@ public class WindowManager : MonoBehaviour
         }
         AllWindows = new List<Canvas>()
         {
-            Desktop, FileExplorer, TextEditor, PassWordWindow,
+            Desktop, FileExplorer, TextEditor, PassWordWindow, Taskbar, ZipExtractWindow,
         };
     }
 
@@ -34,7 +36,7 @@ public class WindowManager : MonoBehaviour
     {
         openWindow(Desktop);
         Desktop.sortingOrder = 10;
-        //openWindow(PassWordWindow);
+        openWindow(Taskbar);
     }
 
     public Canvas whoseCanvas(GameObject obj)
@@ -98,6 +100,7 @@ public class WindowManager : MonoBehaviour
             
         }
         BringToFront(window);
+        TaskbarManager.Instance.DisplayNodes();
     }
 
     public void closeWindow(Canvas window)
@@ -109,6 +112,7 @@ public class WindowManager : MonoBehaviour
         Canvas max = GetMaxSortingOrderCanvas();
         if (max != Desktop)
             adjustHeaders(max);
+        TaskbarManager.Instance.DisplayNodes();
     }
 
     public void BringToFront(Canvas window)

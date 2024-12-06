@@ -9,6 +9,7 @@ public class NodeIconManager : ScriptableObject
     public Sprite FolderIcon;
     public Sprite TextFileIcon;
     public Sprite ComputerIcon;
+    public Sprite ZipFileIcon;
 
 
     public Sprite GetIcon(NodeT nodeType)
@@ -21,6 +22,8 @@ public class NodeIconManager : ScriptableObject
                 return TextFileIcon;
             case NodeT.Computer:
                 return ComputerIcon;
+            case NodeT.ZipFile:
+                return ZipFileIcon;
             default:
                 return DefaultIcon;
         }

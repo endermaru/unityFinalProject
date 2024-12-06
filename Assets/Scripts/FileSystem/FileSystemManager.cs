@@ -84,7 +84,6 @@ public class FileSystemManager : MonoBehaviour
                 // 루트 노드를 생성
                 Root = ParseNode(rootObject, null) as FolderNode;
 
-                //Debug.Log($"FileSystem loaded from {saveFilePath}");
             }
             else
             {
@@ -137,6 +136,15 @@ public class FileSystemManager : MonoBehaviour
             string content = jsonObject["Content"]?.ToString();
             string password = jsonObject["Password"]?.ToString();
             return new FileNode(name, parent, content, password);
+        }
+        else if (nodeType == "ZipFile")
+        {
+            string content = jsonObject["Content"]?.ToString();
+            JObject jObj = JObject.Parse(content);
+            FolderNode ZipRoot = ParseNode(jObj, null) as FolderNode;
+
+            string password = jsonObject["Password"]?.ToString();
+            return new ZipNode(name, parent, ZipRoot, password);
         }
 
         return null;

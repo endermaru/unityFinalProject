@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using static Unity.VisualScripting.Metadata;
 
 public enum NodeT
 {
     Folder,
     TextFile,
     Computer,
+    ZipFile,
 }
 
 public class Node
@@ -43,8 +45,12 @@ public class FolderNode : Node
 
     public void AddChild(Node child)
     {
-        child.Parent = this;
-        Children.Add(child);
+        if (!Children.Contains(child))
+        {
+            child.Parent = this;
+            Children.Add(child);
+        }
+        
     }
 
     public void RemoveChild(Node child)
@@ -65,4 +71,27 @@ public class FileNode : Node
     }
     public string Content { get; set; }
     public string Password { get; set; }
+}
+
+public class ZipNode : Node
+{
+    public ZipNode(string name, Node parent, FolderNode zipRoot, string password)
+        : base(name, parent, NodeT.ZipFile)
+    {
+        ZipRoot = zipRoot;
+        Password = password;
+        if (parent != null)
+        {
+            var parentNode = new FolderNode(FSConstants.ParentName, null)
+            {
+                Parent = parent
+            };
+            ZipRoot.Children.Insert(0, parentNode);
+        }
+    }
+    public FolderNode ZipRoot { get; set; }
+    public string Password { get; set; }
+
+
+
 }
