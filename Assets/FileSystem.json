@@ -34,7 +34,7 @@
 		{
 			"Name":"myZip.zip",
 			"NodeType": "ZipFile",
-			"Password":"456",
+			"Password": "456",
 			"Content": {
 				"Name": "myZip",
 				"NodeType": "Folder",

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "NodeIconManager", menuName = "Scriptable Objects/NodeIconManager")]
 public class NodeIconManager : ScriptableObject
 {
+
     public Sprite DefaultIcon;
     public Sprite FolderIcon;
     public Sprite TextFileIcon;
@@ -12,7 +13,6 @@ public class NodeIconManager : ScriptableObject
     public Sprite ZipFileIcon;
     public Sprite EmailIcon;
     public Sprite ExeIcon;
-
 
     public Sprite GetIcon(NodeT nodeType)
     {

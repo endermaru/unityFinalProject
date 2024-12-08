@@ -9,6 +9,11 @@ TagManager:
   - Desktop
   - FileExplorer
   - CloseButton
+  - TextEditor
+  - OkButton
+  - NodeUITaskbar
+  - Taskbar
+  - ZipFile
   layers:
   - Default
   - TransparentFX
