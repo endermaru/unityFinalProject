@@ -19,6 +19,12 @@ public class CloseButton : MonoBehaviour, IComponent
 
     public virtual void Interact()
     {
+        
+        if (canvas == WindowManager.Instance.PasswordWindow)
+        {
+            canvas.GetComponent<PasswordWindow>().ResetWindow();
+        }
+
         WindowManager.Instance.CloseWindow(canvas);
     }
 

@@ -14,7 +14,7 @@ public class OkButtonZIP : MonoBehaviour, IComponent
 
     public virtual void Interact()
     {
-        ZipNode ZipFile = ZipExtractWindow.Instance.Node;
+        FileNode ZipFile = ZipExtractWindow.Instance.Node;
         FolderNode parent = ZipFile.Parent as FolderNode;
         parent.AddChild(ZipFile.ZipRoot);
         FileExplorer.Instance.Display();

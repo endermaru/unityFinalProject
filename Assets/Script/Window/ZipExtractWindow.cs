@@ -7,7 +7,7 @@ using System.Collections;
 public class ZipExtractWindow : WindowComponent
 {
     public static ZipExtractWindow Instance { get; private set; }
-    public ZipNode Node;
+    public FileNode Node;
     public TMP_Text FileName;
 
     public override string ComponentName => "ZipExtractWindow";
@@ -21,7 +21,7 @@ public class ZipExtractWindow : WindowComponent
         }
         else Destroy(gameObject);
     }
-    public void SetFile(ZipNode node)
+    public void SetFile(FileNode node)
     {
         Node = node;
         FileName.text = Node.Name;

@@ -65,24 +65,14 @@ public class FolderNode : Node
 
 public class FileNode : Node
 {
-    public FileNode(string name, Node parent, string content, string password)
-        : base(name, parent, NodeT.TextFile)
+    public FileNode(string name, Node parent, string content, string password = null, FolderNode zipRoot = null)
+        : base(name, parent, GetNodeType(name))
     {
         Content = content;
         Password = password;
-    }
-    public string Content { get; set; }
-    public string Password { get; set; }
-}
-
-public class ZipNode : Node
-{
-    public ZipNode(string name, Node parent, FolderNode zipRoot, string password)
-        : base(name, parent, NodeT.ZipFile)
-    {
         ZipRoot = zipRoot;
-        Password = password;
-        if (parent != null)
+
+        if (ZipRoot != null && parent != null)
         {
             var parentNode = new FolderNode(FSConstants.ParentName, null)
             {
@@ -91,6 +81,39 @@ public class ZipNode : Node
             ZipRoot.Children.Insert(0, parentNode);
         }
     }
-    public FolderNode ZipRoot { get; set; }
+    public string Content { get; set; }
     public string Password { get; set; }
+    public FolderNode ZipRoot { get; set; }
+
+    private static NodeT GetNodeType(string name)
+    {
+        string ext = name.Length >= 3 ? name[^3..].ToLower() : string.Empty;
+        return ext switch
+        {
+            "zip" => NodeT.ZipFile,
+            "exe" => NodeT.Exe,
+            "png" or "jpg" => NodeT.Exe,
+            _ => NodeT.TextFile,
+        };
+    }
 }
+
+//public class ZipNode : Node
+//{
+//    public ZipNode(string name, Node parent, FolderNode zipRoot, string password)
+//        : base(name, parent, NodeT.ZipFile)
+//    {
+//        ZipRoot = zipRoot;
+//        Password = password;
+//        if (parent != null)
+//        {
+//            var parentNode = new FolderNode(FSConstants.ParentName, null)
+//            {
+//                Parent = parent
+//            };
+//            ZipRoot.Children.Insert(0, parentNode);
+//        }
+//    }
+//    public FolderNode ZipRoot { get; set; }
+//    public string Password { get; set; }
+//}

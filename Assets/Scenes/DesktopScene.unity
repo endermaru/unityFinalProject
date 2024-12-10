@@ -5735,7 +5735,6 @@ GameObject:
   - component: {fileID: 1359551283}
   - component: {fileID: 1359551286}
   - component: {fileID: 1359551285}
-  - component: {fileID: 1359551284}
   m_Layer: 5
   m_Name: FileExplorerNodeManager
   m_TagString: Untagged
@@ -5762,22 +5761,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1359551284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359551282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 915a5057a6f2ebc48a7f92176f1101c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NodeUIPrefab: {fileID: 6937775648262564522, guid: c8fc5b50b66adce4bbeb98abd770839b, type: 3}
-  NodeContainer: {fileID: 1183114462}
-  NodeIconManager: {fileID: 11400000, guid: e5f46d167179597429025eea61bc5984, type: 2}
-  inactiveHeader: {fileID: 1010075231}
 --- !u!114 &1359551285
 MonoBehaviour:
   m_ObjectHideFlags: 0

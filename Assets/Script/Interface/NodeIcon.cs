@@ -24,21 +24,21 @@ public class NodeIcon : MonoBehaviour, IComponent
                 WindowManager.Instance.OpenWindow(WindowManager.Instance.FileExplorer);
                 break;
             case NodeT.TextFile:
-                FileNode File = Node as FileNode;
-                if (File.Password != null)
+                FileNode textNode = Node as FileNode;
+                if (textNode.Password != null)
                 {
-                    PasswordWindow.Instance.SetFile(File);
+                    PasswordWindow.Instance.SetFile(textNode);
                     WindowManager.Instance.OpenWindow(WindowManager.Instance.PasswordWindow);
                 }
                 else
                 {
-                    TextEditor.Instance.setTextFile(File);
+                    TextEditor.Instance.setTextFile(textNode);
                     TextEditor.Instance.Display();
                     WindowManager.Instance.OpenWindow(WindowManager.Instance.TextEditor);
                 }
                 break;
             case NodeT.ZipFile:
-                ZipNode zipNode = Node as ZipNode;
+                FileNode zipNode = Node as FileNode;
                 ZipExtractWindow.Instance.SetFile(zipNode);
                 if (zipNode.Password != null)
                 {

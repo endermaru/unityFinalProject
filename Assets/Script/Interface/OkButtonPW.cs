@@ -27,7 +27,6 @@ public class OKButtonPW : MonoBehaviour, IComponent
             }
             else if (PasswordWindow.Instance.Node?.NodeType == NodeT.ZipFile)
             {
-                Debug.Log("!!!");
                 WindowManager.Instance.CloseWindow(WindowManager.Instance.PasswordWindow);
                 WindowManager.Instance.OpenWindow(WindowManager.Instance.ZipExtractWindow);
 

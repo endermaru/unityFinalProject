@@ -144,11 +144,11 @@ public class FileSystemManager : MonoBehaviour
             FolderNode ZipRoot = ParseNode(jObj, null) as FolderNode;
 
             string password = jsonObject["Password"]?.ToString();
-            return new ZipNode(name, parent, ZipRoot, password);
+            return new FileNode(name, parent, null, password, ZipRoot);
         }
         else if (nodeType == "Exe")
         {
-            return new Node(name, parent, NodeT.Exe);
+            return new FileNode(name, parent, null, null);
         }
 
         return null;

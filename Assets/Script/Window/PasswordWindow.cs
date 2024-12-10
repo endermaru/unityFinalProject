@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class PasswordWindow : WindowComponent
 {
@@ -57,17 +58,24 @@ public class PasswordWindow : WindowComponent
         Content.text = string.Empty;
     }
 
+    public void ResetWindow()
+    {
+        invalid.SetActive(false);
+        ResetContent();
+    }
+
     public bool CheckPassword()
     {
         bool result = false;
         if (Node != null)
         {
-            if (Node.NodeType == NodeT.TextFile)
-                result = (Content.text == (Node as FileNode).Password);
-            else if (Node.NodeType == NodeT.ZipFile)
-                result = (Content.text == (Node as ZipNode).Password);
+            result = (Content.text == (Node as FileNode).Password);
         }
         if (!result) ShowInvalid();
+        else
+        {
+            ResetWindow();
+        }
         return result;
     }
 
