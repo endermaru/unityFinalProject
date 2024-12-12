@@ -1,0 +1,84 @@
+{
+  "Name": "Root",
+  "NodeType": "Folder",
+  "Children": [
+	{
+      "Name": "Desktop",
+      "NodeType": "Folder",
+      "Children": [
+        {
+          "Name": "내 컴퓨터",
+          "NodeType": "Computer",
+        },
+		{
+			"Name":"go.exe",
+			"NodeType":"Exe",
+		},
+		{
+		  "Name": "Folder1",
+		  "NodeType": "Folder",
+		  "Children": [
+			{
+			  "Name": "File1.txt",
+			  "NodeType": "TextFile",
+			  "Content": "Hello, world!"
+			}
+		  ]
+		},
+		{
+		  "Name": "File2.txt",
+		  "NodeType": "TextFile",
+		  "Password": "123",
+		  "Content": "Hell3o, world!"
+		},
+		{
+			"Name":"myZip.zip",
+			"NodeType": "ZipFile",
+			"Content": {
+				"Name": "myZip",
+				"NodeType": "Folder",
+				"Children": [
+					{
+					  "Name": "File1.txt",
+					  "NodeType": "TextFile",
+					  "Content": "Hello, world!"
+					}
+				]
+			}
+			
+		},
+		{
+			"Name":"커서",
+			"NodeType":"Item",
+		},
+		{
+			"Name":"map.jpg",
+			"NodeType":"Image",
+		},
+      ]
+    },
+    {
+      "Name": "Folder1",
+      "NodeType": "Folder",
+      "Children": [
+        {
+          "Name": "File1.txt",
+          "NodeType": "TextFile",
+          "Content": "Hello, world!"
+        }
+      ]
+    },
+	{
+      "Name": "Folder112",
+      "NodeType": "Folder",
+      "Children": [
+        {
+          "Name": "File2.txt",
+          "NodeType": "TextFile",
+          "Content": "Hell3o, world!"
+        }
+      ]
+    },
+	
+  ]
+}

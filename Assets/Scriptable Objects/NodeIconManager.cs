@@ -13,10 +13,13 @@ public class NodeIconManager : ScriptableObject
     public Sprite ZipFileIcon;
     public Sprite EmailIcon;
     public Sprite ExeIcon;
+    public Sprite ImageIcon;
 
-    public Sprite GetIcon(NodeT nodeType)
+    public Sprite CursorIcon;
+
+    public Sprite GetIcon(Node node)
     {
-        switch (nodeType)
+        switch (node.NodeType)
         {
             case NodeT.Folder:
                 return FolderIcon;
@@ -30,6 +33,11 @@ public class NodeIconManager : ScriptableObject
                 return EmailIcon;
             case NodeT.Exe:
                 return ExeIcon;
+            case NodeT.Item:
+                if (node.Name == "Ä¿¼­") return CursorIcon;
+                else return DefaultIcon;
+            case NodeT.Image:
+                return ImageIcon;
             default:
                 return DefaultIcon;
         }

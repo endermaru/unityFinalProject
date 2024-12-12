@@ -1,19 +1,29 @@
 using UnityEngine;
+using TMPro;
 
 public class PlayerSingleton : MonoBehaviour
 {
-    private static PlayerSingleton instance;
+    public static PlayerSingleton Instance;
+    public GameObject InteractMessage;
+    public TMP_Text Message;
 
-    void Awake()
+    private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // 플레이어 오브젝트 유지
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject); // 중복된 플레이어 오브젝트 제거
-        }
+        else Destroy(gameObject);
+        InteractMessage.SetActive(false);
+    }
+    public void ShowMessage(string message)
+    {
+        Message.text = message;
+        InteractMessage.SetActive(true);
+    }
+    public void HideMessage() 
+    {
+        InteractMessage.SetActive(false);
     }
 }

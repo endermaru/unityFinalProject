@@ -50,6 +50,13 @@ public class NodeIcon : MonoBehaviour, IComponent
                     WindowManager.Instance.OpenWindow(WindowManager.Instance.ZipExtractWindow);
                 }
                 break;
+            case NodeT.Image:
+                FileNode ImageNode = Node as FileNode;
+                ImageViewer.Instance.SetFile(ImageNode);
+                ImageViewer.Instance.Display();
+                WindowManager.Instance.OpenWindow(WindowManager.Instance.ImageViewer);
+
+                break;
         }
     }
 
@@ -60,6 +67,9 @@ public class NodeIcon : MonoBehaviour, IComponent
 
     public string Usage;
     public Node Node;
+    public GameObject thisIcon;
+
+    public Canvas ThisCanvas;
 
     public void Initialize(Node node, string usage)
     {
@@ -67,16 +77,19 @@ public class NodeIcon : MonoBehaviour, IComponent
         Usage = usage;
         NameText.text = Node.Name;
         NameText.color = usage == "Desktop" ? Color.white : Color.black;
-        Icon.sprite = nodeIconManager.GetIcon(node.NodeType);
+        Icon.sprite = nodeIconManager.GetIcon(node);
 
         HighlightBox.enabled = false;
+        ThisCanvas = WindowManager.Instance.WhoseCanvas(thisIcon);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && PlayerInteract.Instance.IsInteractValid(thisIcon))
         {
             HighlightBox.enabled = true;
+            if (Node.NodeType==NodeT.Item) PlayerInteract.Instance.ShowMessage("È¹µæ (E)");
+            else PlayerInteract.Instance.ShowMessage("¿­±â (E)");
         }
     }
 
@@ -85,6 +98,7 @@ public class NodeIcon : MonoBehaviour, IComponent
         if (collision.CompareTag("Player"))
         {
             HighlightBox.enabled = false;
+            PlayerInteract.Instance.HideMessage();
         }
     }
 }

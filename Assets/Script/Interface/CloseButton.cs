@@ -30,22 +30,24 @@ public class CloseButton : MonoBehaviour, IComponent
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) // "Player" 태그를 가진 오브젝트와 충돌했을 때
+        if (collision.CompareTag("Player") && PlayerInteract.Instance.IsInteractValid(canvas.gameObject))
         {
             if (xImage != null)
             {
                 xImage.SetActive(true); // X 이미지 표시
+                PlayerSingleton.Instance.ShowMessage("닫기 (E)");
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) // "Player" 태그를 가진 오브젝트가 범위를 벗어날 때
+        if (collision.CompareTag("Player"))
         {
             if (xImage != null)
             {
                 xImage.SetActive(false); // X 이미지 숨김
+                PlayerSingleton.Instance.HideMessage();
             }
         }
     }

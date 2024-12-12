@@ -5,6 +5,7 @@ public class TaskbarWindow : WindowComponent
 {
     public Transform NodeContainer;
     public GameObject NodeIcon;
+    public override string ComponentName => "Taskbar";
 
     public static TaskbarWindow Instance { get; private set; }
 
@@ -40,6 +41,7 @@ public class TaskbarWindow : WindowComponent
                 "FileExplorer" => FileSystemManager.Instance.CurrentNode,
                 "TextEditor" => TextEditor.Instance.currentTextFile,
                 "ZipExtractWindow" => ZipExtractWindow.Instance.Node,
+                "ImageViewer" => ImageViewer.Instance.ImageNode,
                 _ => null,
             };
             if (icon == null) continue;

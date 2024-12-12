@@ -13,6 +13,7 @@ public class WindowManager : MonoBehaviour
     public Canvas PasswordWindow;
     public Canvas Taskbar;
     public Canvas ZipExtractWindow;
+    public Canvas ImageViewer;
     public List<Canvas> AllWindows;
 
     private void Awake()
@@ -22,7 +23,7 @@ public class WindowManager : MonoBehaviour
 
         AllWindows = new List<Canvas>()
         {
-            Desktop, FileExplorer, TextEditor, PasswordWindow, Taskbar, ZipExtractWindow,
+            Desktop, FileExplorer, TextEditor, PasswordWindow, Taskbar, ZipExtractWindow, ImageViewer,
         };
     }
 
@@ -45,26 +46,30 @@ public class WindowManager : MonoBehaviour
         return null;
     }
 
-    public List<GameObject> FrontObjects(List<GameObject> list)
+    public List<GameObject> FrontObjects(List<GameObject> collidingList)
     {
-        Canvas max = Desktop;
-        foreach (var obj in list)
+        Canvas maxC = Desktop;
+        foreach (var obj in collidingList)
         {
             var window = WhoseCanvas(obj);
-            if (window.sortingOrder > max.sortingOrder)
+            if (window == null) continue;
+            if (window.sortingOrder > maxC.sortingOrder)
             {
-                max = window;
+                maxC = window;
             }
         }
         List<GameObject> ret = new()
         {
-            max.gameObject
+            maxC.gameObject
         };
         
 
-        foreach (GameObject obj in list)
+        foreach (GameObject obj in collidingList)
         {
-            if (obj != max.gameObject && WhoseCanvas(obj)==max) ret.Add(obj);
+            if (obj != maxC.gameObject && WhoseCanvas(obj) == maxC)
+            {
+                ret.Add(obj);
+            }
         }
         
         return ret;

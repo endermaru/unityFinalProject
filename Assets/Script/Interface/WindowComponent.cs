@@ -13,7 +13,8 @@ public class WindowComponent: MonoBehaviour, IComponent
 
     public virtual void Interact()
     {
-        if (ComponentName != "Desktop")
+
+        if (ComponentName != "Desktop" && ComponentName != "Taskbar")
         {
             WindowManager.Instance.OpenWindow(canvas);
         }

@@ -11,6 +11,8 @@ public enum NodeT
     ZipFile,
     Email,
     Exe,
+    Image,
+    Item,
 }
 
 public class Node
@@ -62,7 +64,6 @@ public class FolderNode : Node
     }
 }
 
-
 public class FileNode : Node
 {
     public FileNode(string name, Node parent, string content, string password = null, FolderNode zipRoot = null)
@@ -84,6 +85,7 @@ public class FileNode : Node
     public string Content { get; set; }
     public string Password { get; set; }
     public FolderNode ZipRoot { get; set; }
+    public string ImagePath { get; set; } 
 
     private static NodeT GetNodeType(string name)
     {
@@ -92,28 +94,17 @@ public class FileNode : Node
         {
             "zip" => NodeT.ZipFile,
             "exe" => NodeT.Exe,
-            "png" or "jpg" => NodeT.Exe,
+            "png" or "jpg" => NodeT.Image,
             _ => NodeT.TextFile,
         };
     }
 }
 
-//public class ZipNode : Node
-//{
-//    public ZipNode(string name, Node parent, FolderNode zipRoot, string password)
-//        : base(name, parent, NodeT.ZipFile)
-//    {
-//        ZipRoot = zipRoot;
-//        Password = password;
-//        if (parent != null)
-//        {
-//            var parentNode = new FolderNode(FSConstants.ParentName, null)
-//            {
-//                Parent = parent
-//            };
-//            ZipRoot.Children.Insert(0, parentNode);
-//        }
-//    }
-//    public FolderNode ZipRoot { get; set; }
-//    public string Password { get; set; }
-//}
+public class ItemNode : Node
+{
+    public ItemNode(string name, Node parent)
+        : base(name, parent, NodeT.Item)
+    {
+
+    }
+}

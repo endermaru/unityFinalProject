@@ -106,7 +106,7 @@ public class FileSystemManager : MonoBehaviour
         if (nodeType == "Folder")
         {
             // FolderNode 积己
-            FolderNode folder = new FolderNode(name, parent);
+            FolderNode folder = new(name, parent);
 
             // 磊侥 贸府
             var childrenArray = jsonObject["Children"] as JArray;
@@ -149,6 +149,15 @@ public class FileSystemManager : MonoBehaviour
         else if (nodeType == "Exe")
         {
             return new FileNode(name, parent, null, null);
+        }
+        else if (nodeType == "Item")
+        {
+            return new ItemNode(name, parent);
+        }
+        else if (nodeType == "Image")
+        {
+            string imagePath = jsonObject["ImagePath"]?.ToString();
+            return new FileNode(name, parent, null);
         }
 
         return null;

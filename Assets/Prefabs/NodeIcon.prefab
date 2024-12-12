@@ -428,3 +428,5 @@ MonoBehaviour:
   NameText: {fileID: 8081004486442504237}
   Icon: {fileID: 6720203591118632434}
   HighlightBox: {fileID: 3586275411391615140}
+  Usage: 
+  thisIcon: {fileID: 6937775648262564522}

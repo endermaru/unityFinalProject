@@ -10,68 +10,33 @@
           "Name": "내 컴퓨터",
           "NodeType": "Computer",
         },
+
 		{
-			"Name":"go.exe",
-			"NodeType":"Exe",
-		},
-		{
-		  "Name": "Folder1",
-		  "NodeType": "Folder",
-		  "Children": [
-			{
-			  "Name": "File1.txt",
-			  "NodeType": "TextFile",
-			  "Content": "Hello, world!"
-			}
-		  ]
-		},
-		{
-		  "Name": "File2.txt",
+		  "Name": "README.txt",
 		  "NodeType": "TextFile",
-		  "Password": "123",
-		  "Content": "Hell3o, world!"
+		  "Content": "이 편지는 영국에서 시작되어..."
 		},
 		{
-			"Name":"myZip.zip",
-			"NodeType": "ZipFile",
-			"Password": "456",
-			"Content": {
-				"Name": "myZip",
-				"NodeType": "Folder",
-				"Children": [
-					{
-					  "Name": "File1.txt",
-					  "NodeType": "TextFile",
-					  "Content": "Hello, world!"
-					}
-				]
-			}
-			
-		}
+			"Name":"커서",
+			"NodeType":"Item",
+		},
+		{
+			"Name":"map.jpg",
+			"NodeType":"Image",
+		},
       ]
     },
     {
-      "Name": "Folder1",
+      "Name": "Assets",
       "NodeType": "Folder",
       "Children": [
         {
-          "Name": "File1.txt",
+          "Name": "AssetFile1.txt",
           "NodeType": "TextFile",
-          "Content": "Hello, world!"
+		  "PassWord": "123",
+          "Content": "Hello, world!",
         }
       ]
     },
-	{
-      "Name": "Folder112",
-      "NodeType": "Folder",
-      "Children": [
-        {
-          "Name": "File2.txt",
-          "NodeType": "TextFile",
-          "Content": "Hell3o, world!"
-        }
-      ]
-    },
-	
   ]
 }
