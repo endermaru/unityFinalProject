@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,9 @@ public class PlayerInteract : MonoBehaviour
 
     public GameObject InteractMessage;
     public TMP_Text Message;
+
+    public bool HasCursor = false;
+    public GameObject Cursor;
 
     private void Awake()
     {
@@ -25,6 +29,7 @@ public class PlayerInteract : MonoBehaviour
             Destroy(gameObject);
         }
         InteractMessage.SetActive(false);
+        Cursor.SetActive(false);
     }
 
     public void Start()
@@ -36,6 +41,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            if (ScenarioManager.Instance.IsStarting) return;
             fronts = WindowManager.Instance.FrontObjects(collidingObjects);
             //Canvas frontCanvas = fronts[0].GetComponent<Canvas>();
             foreach (GameObject obj in fronts)
@@ -44,6 +50,7 @@ public class PlayerInteract : MonoBehaviour
                 component?.Interact();
             }
         }
+        Cursor.SetActive(HasCursor);
     }
 
 

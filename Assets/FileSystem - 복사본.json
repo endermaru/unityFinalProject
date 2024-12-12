@@ -79,6 +79,23 @@
         }
       ]
     },
+	{
+      "Name": "Documents",
+      "NodeType": "Folder",
+      "Children": [
+        {
+          "Name": "AssetFile1.txt",
+          "NodeType": "TextFile",
+		  "Hidden": "True",
+		  "Password": "123",
+          "Content": "Hello, world!",
+        },
+		{
+			"Name":"숨김 해제",
+			"NodeType":"Item",
+		},
+      ]
+    },
 	
   ]
 }

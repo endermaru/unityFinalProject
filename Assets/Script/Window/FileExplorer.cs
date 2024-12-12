@@ -38,6 +38,8 @@ public class FileExplorer : WindowComponent
         {
             if (childnode.NodeType == NodeT.Computer) continue;
 
+            if (!FileSystemManager.Instance.ShowHidden && childnode.Hidden) continue;
+
             GameObject nodeObject = Instantiate(NodeIcon, NodeContainer);
             NodeIcon nodeIcon = nodeObject.GetComponent<NodeIcon>();
             nodeIcon.Initialize(childnode, "FileExplorer");

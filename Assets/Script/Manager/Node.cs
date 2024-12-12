@@ -20,12 +20,14 @@ public class Node
     public string Name { get; set; }
     public Node Parent { get; set; }
     public NodeT NodeType { get; set; }
+    public bool Hidden = false;
 
-    public Node(string name, Node parent, NodeT nodeType)
+    public Node(string name, Node parent, NodeT nodeType, bool hidden)
     {
         Name = name;
         Parent = parent;
         NodeType = nodeType;
+        Hidden = hidden;
     }
 }
 
@@ -34,8 +36,8 @@ public class FolderNode : Node
 {
     public List<Node> Children { get; private set; } = new List<Node>();
 
-    public FolderNode(string name, Node parent)
-        : base(name, parent, NodeT.Folder) 
+    public FolderNode(string name, Node parent, bool hidden=false)
+        : base(name, parent, NodeT.Folder, hidden) 
     {
         if (parent != null)
         {
@@ -44,6 +46,7 @@ public class FolderNode : Node
                 Parent = parent
             };
             Children.Add(parentNode);
+            Hidden = hidden;
         }
     }
 
@@ -66,8 +69,8 @@ public class FolderNode : Node
 
 public class FileNode : Node
 {
-    public FileNode(string name, Node parent, string content, string password = null, FolderNode zipRoot = null)
-        : base(name, parent, GetNodeType(name))
+    public FileNode(string name, Node parent, string content, bool hidden = false, string password = null, FolderNode zipRoot = null)
+        : base(name, parent, GetNodeType(name), hidden)
     {
         Content = content;
         Password = password;
@@ -81,11 +84,12 @@ public class FileNode : Node
             };
             ZipRoot.Children.Insert(0, parentNode);
         }
+        Hidden = hidden;
     }
     public string Content { get; set; }
     public string Password { get; set; }
     public FolderNode ZipRoot { get; set; }
-    public string ImagePath { get; set; } 
+    public string ImagePath { get; set; }
 
     private static NodeT GetNodeType(string name)
     {
@@ -103,7 +107,7 @@ public class FileNode : Node
 public class ItemNode : Node
 {
     public ItemNode(string name, Node parent)
-        : base(name, parent, NodeT.Item)
+        : base(name, parent, NodeT.Item, false)
     {
 
     }

@@ -21,3 +21,4 @@ MonoBehaviour:
   ExeIcon: {fileID: -5484203586563927883, guid: 1e7b75fb80902d84283a65b9c2138d29, type: 3}
   ImageIcon: {fileID: 1208040086343421634, guid: 926b62c5228485642be16dab21141053, type: 3}
   CursorIcon: {fileID: 6554736390298987251, guid: 2212f8dad8de5be4c844eb914b45830e, type: 3}
+  HiddenIcon: {fileID: 2545779934182465545, guid: b488cf0c8b3367b4da0a19f7df0bf11c, type: 3}

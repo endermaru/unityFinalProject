@@ -40,5 +40,6 @@ public class ImageViewer : WindowComponent
     public void SetFile(FileNode file)
     {
         ImageNode = file;
+        FileName.text = file.Name;
     }
 }

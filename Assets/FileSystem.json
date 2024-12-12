@@ -1,42 +1,84 @@
 {
-  "Name": "Root",
-  "NodeType": "Folder",
-  "Children": [
-	{
-      "Name": "Desktop",
-      "NodeType": "Folder",
-      "Children": [
-        {
-          "Name": "내 컴퓨터",
-          "NodeType": "Computer",
-        },
+	"Name": "Root",
+	"NodeType": "Folder",
+	"Children": [
+		{
+			"Name": "Desktop",
+			"NodeType": "Folder",
+			"Children": [
+			{
+				"Name": "내 컴퓨터",
+				"NodeType": "Computer",
+			},
+			{
+				"Name": "13일차.txt",
+				"NodeType": "TextFile",
+				"Content": "1996.12.03.\n\n이 컴퓨터에 갇힌지 13일 째\n이젠 남은 물도 없다..."
+			},
+			{
+				"Name":"david.png",
+				"NodeType":"Image",
+			},
+			{
+				"Name":"커서",
+				"NodeType":"Item",
+			},
+			]
+		},
+		{
+			"Name": "Downloads",
+			"NodeType": "Folder",
+			"Children": [
 
-		{
-		  "Name": "README.txt",
-		  "NodeType": "TextFile",
-		  "Content": "이 편지는 영국에서 시작되어..."
+			]
 		},
 		{
-			"Name":"커서",
-			"NodeType":"Item",
+			"Name": "Documents",
+			"NodeType": "Folder",
+			"Children": [
+				{
+					"Name": "DocPass.txt",
+					"NodeType": "TextFile",
+					"Password": "123",
+					"Content": "Hell3o, world!"
+				},
+			]
 		},
 		{
-			"Name":"map.jpg",
-			"NodeType":"Image",
+			"Name": "Pictures",
+			"NodeType": "Folder",
+			"Children": [
+
+			]
 		},
-      ]
-    },
-    {
-      "Name": "Assets",
-      "NodeType": "Folder",
-      "Children": [
-        {
-          "Name": "AssetFile1.txt",
-          "NodeType": "TextFile",
-		  "PassWord": "123",
-          "Content": "Hello, world!",
-        }
-      ]
-    },
-  ]
+		{
+			"Name": "Programs",
+			"NodeType": "Folder",
+			"Children": [
+				{
+					"Name":"tools.zip",
+					"NodeType": "ZipFile",
+					"Content": {
+						"Name": "tools",
+						"NodeType": "Folder",
+						"Children": [
+							{
+								"Name":"숨김 해제",
+								"NodeType":"Item",
+							}
+						]
+					}
+					
+				},
+			]
+		},
+		{
+			"Name": "ImportantFiles",
+			"NodeType": "Folder",
+			"Hidden":"True",
+			"Children": [
+
+			]
+		},
+	]
 }

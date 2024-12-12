@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public class OkButtonZIP : MonoBehaviour, IComponent
@@ -6,6 +7,8 @@ public class OkButtonZIP : MonoBehaviour, IComponent
     public GameObject activeImage;
     string IComponent.ComponentType => "OKButton";
     public string ComponentName => "OKButtonZIP";
+
+    public GameObject Window;
 
     private void Start()
     {
@@ -24,11 +27,12 @@ public class OkButtonZIP : MonoBehaviour, IComponent
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) // "Player" 태그를 가진 오브젝트와 충돌했을 때
+        if (collision.CompareTag("Player") && PlayerInteract.Instance.IsInteractValid(Window))
         {
             if (activeImage != null)
             {
-                activeImage.SetActive(true); // X 이미지 표시
+                activeImage.SetActive(true);
+                PlayerSingleton.Instance.ShowMessage("확인 (E)");
             }
         }
     }
@@ -40,6 +44,7 @@ public class OkButtonZIP : MonoBehaviour, IComponent
             if (activeImage != null)
             {
                 activeImage.SetActive(false); // X 이미지 숨김
+                PlayerSingleton.Instance.HideMessage();
             }
         }
     }

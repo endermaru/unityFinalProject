@@ -16,6 +16,7 @@ public class NodeIconManager : ScriptableObject
     public Sprite ImageIcon;
 
     public Sprite CursorIcon;
+    public Sprite HiddenIcon;
 
     public Sprite GetIcon(Node node)
     {
@@ -35,6 +36,7 @@ public class NodeIconManager : ScriptableObject
                 return ExeIcon;
             case NodeT.Item:
                 if (node.Name == "Ä¿¼­") return CursorIcon;
+                if (node.Name == "¼û±è ÇØÁ¦") return HiddenIcon;
                 else return DefaultIcon;
             case NodeT.Image:
                 return ImageIcon;

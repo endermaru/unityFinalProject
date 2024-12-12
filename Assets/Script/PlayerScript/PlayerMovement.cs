@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (ScenarioManager.Instance.IsStarting) return;
         // 涝仿 贸府
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
@@ -65,24 +66,28 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 position = transform.position;
 
+        int playerWidthHalf = 25;
+        int playerHeightHalf = 35;
+
+
         // X 版拌 贸府
         if (position.x > screenWidth)
         {
-            position.x = -screenWidth;
-        }
-        else if (position.x < -screenWidth)
-        {
             position.x = screenWidth;
+        }
+        else if (position.x < -screenWidth + playerWidthHalf)
+        {
+            position.x = -screenWidth + playerWidthHalf;
         }
 
         // Y 版拌 贸府
-        if (position.y > screenHeight)
+        if (position.y > screenHeight - playerHeightHalf)
         {
-            position.y = -screenHeight;
+            position.y = screenHeight - playerHeightHalf;
         }
         else if (position.y < -screenHeight)
         {
-            position.y = screenHeight;
+            position.y = -screenHeight;
         }
 
         transform.position = position;

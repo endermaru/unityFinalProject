@@ -18,6 +18,8 @@ public class FileSystemManager : MonoBehaviour
 
     public FolderNode CurrentNode { get; private set; }
 
+    public bool ShowHidden;
+
     private string saveFilePath;
 
     private void Awake()
@@ -38,6 +40,8 @@ public class FileSystemManager : MonoBehaviour
         LoadFileSystem(); // 게임 시작 시 로드
         CurrentNode = Root;
         //PrintTree(Root);
+
+        ShowHidden = false;
     }
 
     public void PrintTree(Node node, string indent = "")
@@ -102,11 +106,12 @@ public class FileSystemManager : MonoBehaviour
     {
         string name = jsonObject["Name"]?.ToString();
         string nodeType = jsonObject["NodeType"]?.ToString();
+        bool hidden = jsonObject["Hidden"] != null;
 
         if (nodeType == "Folder")
         {
             // FolderNode 생성
-            FolderNode folder = new(name, parent);
+            FolderNode folder = new(name, parent, hidden);
 
             // 자식 처리
             var childrenArray = jsonObject["Children"] as JArray;
@@ -126,7 +131,7 @@ public class FileSystemManager : MonoBehaviour
         }
         else if (nodeType == "Computer")
         {
-            var computer = new Node(name, Root, NodeT.Computer);
+            var computer = new Node(name, Root, NodeT.Computer, false);
 
             return computer;
         }
@@ -135,7 +140,7 @@ public class FileSystemManager : MonoBehaviour
             // FileNode 생성
             string content = jsonObject["Content"]?.ToString();
             string password = jsonObject["Password"]?.ToString();
-            return new FileNode(name, parent, content, password);
+            return new FileNode(name, parent, content, hidden, password);
         }
         else if (nodeType == "ZipFile")
         {
@@ -144,11 +149,11 @@ public class FileSystemManager : MonoBehaviour
             FolderNode ZipRoot = ParseNode(jObj, null) as FolderNode;
 
             string password = jsonObject["Password"]?.ToString();
-            return new FileNode(name, parent, null, password, ZipRoot);
+            return new FileNode(name, parent, null, hidden, password, ZipRoot);
         }
         else if (nodeType == "Exe")
         {
-            return new FileNode(name, parent, null, null);
+            return new FileNode(name, parent, null, hidden, null);
         }
         else if (nodeType == "Item")
         {
@@ -156,8 +161,7 @@ public class FileSystemManager : MonoBehaviour
         }
         else if (nodeType == "Image")
         {
-            string imagePath = jsonObject["ImagePath"]?.ToString();
-            return new FileNode(name, parent, null);
+            return new FileNode(name, parent, null, hidden);
         }
 
         return null;
@@ -175,7 +179,7 @@ public class FileSystemManager : MonoBehaviour
         CurrentNode = Root;
 
         var desktopNode = new FolderNode("Desktop", Root);
-        var myComputer = new Node("MyComputer", desktopNode, NodeT.Computer);
+        var myComputer = new Node("MyComputer", desktopNode, NodeT.Computer, false);
         desktopNode.AddChild(myComputer);
         Root.AddChild(desktopNode);
     }

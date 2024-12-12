@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class NodeIcon : MonoBehaviour, IComponent
 {
@@ -11,6 +12,22 @@ public class NodeIcon : MonoBehaviour, IComponent
 
     public void Interact()
     {
+        if (!PlayerInteract.Instance.HasCursor)
+        {
+            if (Node.NodeType == NodeT.Item)
+            {
+                if (Node.Name == "Ä¿¼­")
+                {
+                    PlayerInteract.Instance.HasCursor = true;
+                }
+                FolderNode parent = Node.Parent as FolderNode;
+                parent.Children.Remove(Node);
+                FileExplorer.Instance.Display();
+                Desktop.Instance.Display();
+                ScenarioManager.Instance.StartDialog();
+            }
+            return;
+        }
         switch (Node.NodeType)
         {
             case NodeT.Computer:
@@ -55,6 +72,19 @@ public class NodeIcon : MonoBehaviour, IComponent
                 ImageViewer.Instance.SetFile(ImageNode);
                 ImageViewer.Instance.Display();
                 WindowManager.Instance.OpenWindow(WindowManager.Instance.ImageViewer);
+                break;
+            case NodeT.Item:
+                if (Node.Name == "¼û±è ÇØÁ¦")
+                {
+                    FileSystemManager.Instance.ShowHidden = true;
+                    
+                }
+                
+                // use(delete item)
+                FolderNode parent = Node.Parent as FolderNode;
+                parent.Children.Remove(Node);
+                FileExplorer.Instance.Display();
+                Desktop.Instance.Display();
 
                 break;
         }
@@ -79,12 +109,16 @@ public class NodeIcon : MonoBehaviour, IComponent
         NameText.color = usage == "Desktop" ? Color.white : Color.black;
         Icon.sprite = nodeIconManager.GetIcon(node);
 
+        if (node.Hidden) Icon.color = new Color(Icon.color.r, Icon.color.g, Icon.color.b, 0.5f);
+
         HighlightBox.enabled = false;
         ThisCanvas = WindowManager.Instance.WhoseCanvas(thisIcon);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!PlayerInteract.Instance.HasCursor && Node.NodeType != NodeT.Item) return;
+
         if (collision.CompareTag("Player") && PlayerInteract.Instance.IsInteractValid(thisIcon))
         {
             HighlightBox.enabled = true;
@@ -95,6 +129,8 @@ public class NodeIcon : MonoBehaviour, IComponent
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (!PlayerInteract.Instance.HasCursor && Node.NodeType != NodeT.Item) return;
+
         if (collision.CompareTag("Player"))
         {
             HighlightBox.enabled = false;

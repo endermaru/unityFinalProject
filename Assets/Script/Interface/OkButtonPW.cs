@@ -4,6 +4,7 @@ using UnityEngine;
 public class OKButtonPW : MonoBehaviour, IComponent
 {
     public GameObject activeImage;
+    public GameObject Window;
 
     string IComponent.ComponentType => "OKButton";
     public string ComponentName => "OKButtonPW";
@@ -39,11 +40,12 @@ public class OKButtonPW : MonoBehaviour, IComponent
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) // "Player" 태그를 가진 오브젝트와 충돌했을 때
+        if (collision.CompareTag("Player") && PlayerInteract.Instance.IsInteractValid(Window))
         {
             if (activeImage != null)
             {
                 activeImage.SetActive(true); // X 이미지 표시
+                PlayerSingleton.Instance.ShowMessage("확인 (E)");
             }
         }
     }
@@ -55,6 +57,7 @@ public class OKButtonPW : MonoBehaviour, IComponent
             if (activeImage != null)
             {
                 activeImage.SetActive(false); // X 이미지 숨김
+                PlayerSingleton.Instance.HideMessage();
             }
         }
     }
