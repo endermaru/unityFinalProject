@@ -4,16 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - NodeUI
-  - NodeUIBlack
-  - Desktop
-  - FileExplorer
-  - CloseButton
-  - TextEditor
-  - OkButton
-  - NodeUITaskbar
-  - Taskbar
-  - ZipFile
+  - Window
   layers:
   - Default
   - TransparentFX

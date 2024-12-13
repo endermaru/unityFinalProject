@@ -29,7 +29,14 @@
 			"Name": "Downloads",
 			"NodeType": "Folder",
 			"Children": [
-
+				{	
+					"Name":"수상한 파일.exe",
+					"NodeType":"Exe",
+				},
+				{
+					"Name":"수상한 파일2.exe",
+					"NodeType":"Exe",
+				},
 			]
 		},
 		{
@@ -77,7 +84,11 @@
 			"NodeType": "Folder",
 			"Hidden":"True",
 			"Children": [
-
+				{
+					"Name": "Password.txt",
+					"NodeType": "TextFile",
+					"Content": "q1w2e3r4"
+				},
 			]
 		},
 	]
