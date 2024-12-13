@@ -45,7 +45,7 @@ public class OKButtonPW : MonoBehaviour, IComponent
             if (activeImage != null)
             {
                 activeImage.SetActive(true); // X 이미지 표시
-                PlayerSingleton.Instance.ShowMessage("확인 (E)");
+                PlayerInteract.Instance.ShowMessage("확인 (E)");
             }
         }
     }
@@ -57,7 +57,7 @@ public class OKButtonPW : MonoBehaviour, IComponent
             if (activeImage != null)
             {
                 activeImage.SetActive(false); // X 이미지 숨김
-                PlayerSingleton.Instance.HideMessage();
+                PlayerInteract.Instance.HideMessage();
             }
         }
     }

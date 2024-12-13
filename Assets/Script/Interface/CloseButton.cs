@@ -35,7 +35,7 @@ public class CloseButton : MonoBehaviour, IComponent
             if (xImage != null)
             {
                 xImage.SetActive(true); // X ÀÌ¹ÌÁö Ç¥½Ã
-                PlayerSingleton.Instance.ShowMessage("´Ý±â (E)");
+                PlayerInteract.Instance.ShowMessage("´Ý±â (E)");
             }
         }
     }
@@ -47,7 +47,7 @@ public class CloseButton : MonoBehaviour, IComponent
             if (xImage != null)
             {
                 xImage.SetActive(false); // X ÀÌ¹ÌÁö ¼û±è
-                PlayerSingleton.Instance.HideMessage();
+                PlayerInteract.Instance.HideMessage();
             }
         }
     }

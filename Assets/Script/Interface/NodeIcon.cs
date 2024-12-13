@@ -72,6 +72,7 @@ public class NodeIcon : MonoBehaviour, IComponent
                 ImageViewer.Instance.SetFile(ImageNode);
                 ImageViewer.Instance.Display();
                 WindowManager.Instance.OpenWindow(WindowManager.Instance.ImageViewer);
+
                 break;
             case NodeT.Item:
                 if (Node.Name == "숨김 해제")
@@ -86,6 +87,16 @@ public class NodeIcon : MonoBehaviour, IComponent
                 FileExplorer.Instance.Display();
                 Desktop.Instance.Display();
 
+                break;
+            case NodeT.Exe:
+                if (Node.Name == "수상한 파일.exe")
+                {
+                    AdPopup.Instance.Display();
+                }
+                else if (Node.Name == "수상한 파일2.exe")
+                {
+                    AdPopup.Instance.showAd = false;
+                }
                 break;
         }
     }

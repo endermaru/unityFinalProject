@@ -32,7 +32,7 @@ public class OkButtonZIP : MonoBehaviour, IComponent
             if (activeImage != null)
             {
                 activeImage.SetActive(true);
-                PlayerSingleton.Instance.ShowMessage("»Æ¿Œ (E)");
+                PlayerInteract.Instance.ShowMessage("»Æ¿Œ (E)");
             }
         }
     }
@@ -44,7 +44,7 @@ public class OkButtonZIP : MonoBehaviour, IComponent
             if (activeImage != null)
             {
                 activeImage.SetActive(false); // X ¿ÃπÃ¡ˆ º˚±Ë
-                PlayerSingleton.Instance.HideMessage();
+                PlayerInteract.Instance.HideMessage();
             }
         }
     }

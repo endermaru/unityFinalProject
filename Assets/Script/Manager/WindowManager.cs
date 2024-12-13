@@ -14,6 +14,7 @@ public class WindowManager : MonoBehaviour
     public Canvas Taskbar;
     public Canvas ZipExtractWindow;
     public Canvas ImageViewer;
+    public Canvas AdPopup;
     public List<Canvas> AllWindows;
 
     private void Awake()
@@ -23,7 +24,8 @@ public class WindowManager : MonoBehaviour
 
         AllWindows = new List<Canvas>()
         {
-            Desktop, FileExplorer, TextEditor, PasswordWindow, Taskbar, ZipExtractWindow, ImageViewer,
+            Desktop, FileExplorer, TextEditor, PasswordWindow,
+            Taskbar, ZipExtractWindow, ImageViewer, AdPopup,
         };
     }
 

@@ -153,32 +153,32 @@ public class ScenarioManager : MonoBehaviour
         DialogEnumerator = ((JArray)DialogFile[CurrentScene++]["List"]).GetEnumerator();
         DialogEnumerator.MoveNext();
         Dialog.text = DialogEnumerator.Current.ToString();
-        StartCoroutine(PlayCinematicEffect(IsStarting));
+        StartCoroutine(PlayCinematicEffect());
     }
 
     public void EndDialog()
     {
         IsStarting = false;
-        StartCoroutine(PlayCinematicEffect(IsStarting));
+        StartCoroutine(PlayCinematicEffect());
     }
 
-    private IEnumerator PlayCinematicEffect(bool isStarting)
+    private IEnumerator PlayCinematicEffect()
     {
-        if (!isStarting) DialogBox.SetActive(false);
+        if (!IsStarting) DialogBox.SetActive(false);
         float elapsedTime = 0f;
-        float startSize = isStarting ? originalSize : cinematicZoom;
-        float targetSize = isStarting ? cinematicZoom : originalSize;
+        float startSize = IsStarting ? originalSize : cinematicZoom;
+        float targetSize = IsStarting ? cinematicZoom : originalSize;
 
-        Vector3 startPosition = isStarting ? originalPosition : cinematicPosition;
-        Vector3 targetPosition = isStarting ? cinematicPosition : originalPosition;
+        Vector3 startPosition = IsStarting ? originalPosition : cinematicPosition;
+        Vector3 targetPosition = IsStarting ? cinematicPosition : originalPosition;
 
         var barMoving = 200f;
 
-        Vector2 topStartPos = isStarting ? topBarOriginalPos : new Vector2(0, Screen.height - barMoving);
-        Vector2 topTargetPos = isStarting ? new Vector2(0, Screen.height - barMoving) : topBarOriginalPos;
+        Vector2 topStartPos = IsStarting ? topBarOriginalPos : new Vector2(0, Screen.height - barMoving);
+        Vector2 topTargetPos = IsStarting ? new Vector2(0, Screen.height - barMoving) : topBarOriginalPos;
 
-        Vector2 bottomStartPos = isStarting ? bottomBarOriginalPos : new Vector2(0, -Screen.height + barMoving);
-        Vector2 bottomTargetPos = isStarting ? new Vector2(0, -Screen.height + barMoving) : bottomBarOriginalPos;
+        Vector2 bottomStartPos = IsStarting ? bottomBarOriginalPos : new Vector2(0, -Screen.height + barMoving);
+        Vector2 bottomTargetPos = IsStarting ? new Vector2(0, -Screen.height + barMoving) : bottomBarOriginalPos;
 
         while (elapsedTime < animationDuration)
         {
@@ -205,7 +205,7 @@ public class ScenarioManager : MonoBehaviour
         topBar.rectTransform.anchoredPosition = topTargetPos;
         bottomBar.rectTransform.anchoredPosition = bottomTargetPos;
 
-        if (isStarting) DialogBox.SetActive(true);
+        if (IsStarting) DialogBox.SetActive(true);
     }
 
     private Vector3 calculatePosition()
@@ -224,7 +224,12 @@ public class ScenarioManager : MonoBehaviour
         {
             if (DialogEnumerator.MoveNext())
                 Dialog.text = DialogEnumerator.Current.ToString();
-            else EndDialog();
+            else
+            {
+                IsStarting = false;
+                DialogBox.SetActive(false);
+                EndDialog();
+            }
         }
     }
 
