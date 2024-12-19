@@ -56,8 +56,8 @@ public class NodeIcon : MonoBehaviour, IComponent
                 WindowManager.Instance.OpenWindow(WindowManager.Instance.FileExplorer);
                 if (Node.Name == "Secrets")
                 {
-                    if (ScenarioManager.Instance.CurrentScene < 7)
-                        ScenarioManager.Instance.CurrentScene = 7;
+                    if (ScenarioManager.Instance.CurrentScene < 8)
+                        ScenarioManager.Instance.CurrentScene = 8;
                     ScenarioManager.Instance.enterSecrets = true;
                 }
                 else if (Node.Name == "Escape")
@@ -123,6 +123,10 @@ public class NodeIcon : MonoBehaviour, IComponent
                 {
                     PlayerInteract.Instance.HasHidden = true;
                     FileSystemManager.Instance.ShowHidden = true;
+                    if (ScenarioManager.Instance.CurrentScene < 7)
+                        ScenarioManager.Instance.CurrentScene = 7;
+                    ScenarioManager.Instance.getSeeker = true;
+
                 }
                 
                 // use(delete item)

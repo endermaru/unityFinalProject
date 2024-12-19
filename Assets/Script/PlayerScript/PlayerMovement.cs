@@ -5,9 +5,15 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed;
     public Sprite idleSprite; // 정지 상태 스프라이트
 
+    public Sprite[] loopingSprites; // 반복 재생할 스프라이트 배열
+    public float frameRate = 0.1f; // 프레임 전환 속도
+
     private SpriteRenderer spriteRenderer;
     private Vector3 moveDirection; // 현재 이동 방향
     private Vector3 lastMoveDirection; // 마지막으로 이동한 방향
+
+    private float animationTimer = 0f; // 애니메이션 타이머
+    private int currentFrame = 0; // 현재 스프라이트 프레임
 
     public float screenWidth = 960f; // x 경계값
     public float screenHeight = 540f; // y 경계값
@@ -19,10 +25,16 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         lastMoveDirection = Vector3.zero; // 초기값 설정
         spriteRenderer.sprite = idleSprite;
+
+        if (loopingSprites.Length > 0)
+        {
+            spriteRenderer.sprite = loopingSprites[0]; // 첫 스프라이트 설정
+        }
     }
 
     void Update()
     {
+        AnimateSprite();
         if (ScenarioManager.Instance.StopKey) return;
         // 입력 처리
         float moveX = Input.GetAxisRaw("Horizontal");
@@ -54,7 +66,24 @@ public class PlayerMovement : MonoBehaviour
 
         // 경계 처리
         HandleScreenWrap();
+
+        
     }
+
+    void AnimateSprite()
+    {
+        if (loopingSprites.Length <= 0) return;
+
+        animationTimer += Time.deltaTime;
+
+        if (animationTimer >= frameRate)
+        {
+            animationTimer = 0f;
+            currentFrame = (currentFrame + 1) % loopingSprites.Length; // 다음 프레임
+            spriteRenderer.sprite = loopingSprites[currentFrame]; // 스프라이트 업데이트
+        }
+    }
+
 
     void HandleScreenWrap()
     {

@@ -54,13 +54,16 @@ public class ScenarioManager : MonoBehaviour
     // scene6 - openPassword
     public bool openPassword = false;
 
-    // scene7 - enterSecrets
+    // scene7 - getSeeker
+    public bool getSeeker = false;
+
+    // scene8 - enterSecrets
     public bool enterSecrets = false;
 
-    // scene8 - removeAds
+    // scene9 - removeAds
     public bool removeAds = false;
 
-    // scene9 - enterEscape
+    // scene10 - enterEscape
     public bool enterEscape = false;
 
     private void Awake()
@@ -226,13 +229,13 @@ public class ScenarioManager : MonoBehaviour
         Vector3 startPosition = isStart ? originalPosition : cinematicPosition;
         Vector3 targetPosition = isStart ? cinematicPosition : originalPosition;
 
-        var barMoving = 200f;
+        var barMoving = 150f;
 
-        Vector2 topStartPos = isStart ? topBarOriginalPos : new Vector2(0, Screen.height - barMoving);
-        Vector2 topTargetPos = isStart ? new Vector2(0, Screen.height - barMoving) : topBarOriginalPos;
+        Vector2 topStartPos = isStart ? topBarOriginalPos : new Vector2(topBarOriginalPos.x, topBarOriginalPos.y - barMoving);
+        Vector2 topTargetPos = isStart ? new Vector2(topBarOriginalPos.x, topBarOriginalPos.y - barMoving) : topBarOriginalPos;
 
-        Vector2 bottomStartPos = isStart ? bottomBarOriginalPos : new Vector2(0, -Screen.height + barMoving);
-        Vector2 bottomTargetPos = isStart ? new Vector2(0, -Screen.height + barMoving) : bottomBarOriginalPos;
+        Vector2 bottomStartPos = isStart ? bottomBarOriginalPos : new Vector2(bottomBarOriginalPos.x, bottomBarOriginalPos.y + barMoving);
+        Vector2 bottomTargetPos = isStart ? new Vector2(bottomBarOriginalPos.x, bottomBarOriginalPos.y + barMoving) : bottomBarOriginalPos;
 
         while (elapsedTime < animationDuration)
         {
@@ -297,12 +300,15 @@ public class ScenarioManager : MonoBehaviour
                 if (openPassword) StartDialog();
                 break;
             case 7:
-                if (enterSecrets) StartDialog();
+                if (getSeeker) StartDialog();
                 break;
             case 8:
-                if (removeAds) StartDialog();
+                if (enterSecrets) StartDialog();
                 break;
             case 9:
+                if (removeAds) StartDialog();
+                break;
+            case 10:
                 if (enterEscape) StartDialog();
                 break;
             default:
@@ -315,7 +321,7 @@ public class ScenarioManager : MonoBehaviour
             if (DialogEnumerator.MoveNext())
             {
                 Dialog.text = DialogEnumerator.Current.ToString();
-                if (CurrentScene == 10)
+                if (CurrentScene == 11)
                 {
                     if (didx == 1)
                     {
@@ -333,7 +339,7 @@ public class ScenarioManager : MonoBehaviour
                 DialogBox.SetActive(false);
                 if (CurrentScene == 5) NodeIconRunner.Instance.setSpeed(500);
                 EndDialog();
-                if (CurrentScene == 10) FinalWindow.Instance.StartSpawning();
+                if (CurrentScene == 11) FinalWindow.Instance.StartSpawning();
                 didx = 0;
             }
         }

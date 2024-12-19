@@ -15,7 +15,7 @@ public class FinalWindow : WindowComponent
 
     private bool firstTry = true;
     private bool stopSpawning = false;
-    private int maxWarnings = 30; // 최대 20개 생성
+    private int maxWarnings = 25; // 최대 20개 생성
     private int currentWarnings = 0;
 
     private List<GameObject> warningObjects = new();
