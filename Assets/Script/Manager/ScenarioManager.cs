@@ -14,10 +14,11 @@ public class ScenarioManager : MonoBehaviour
     public Camera mainCamera; // 메인 카메라
     public Transform player; // 플레이어 Transform
     public AnimationCurve animationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // 애니메이션 곡선
-    public float cinematicZoom = 500f; // 영화 효과 확대 비율 (OrthographicSize 조정)
+    public float cinematicZoom = 510f; // 영화 효과 확대 비율 (OrthographicSize 조정)
     public float animationDuration = 1f; // 애니메이션 지속 시간
 
-    public bool IsStarting = false;
+    public bool StopKey = false;
+    private bool DialogKey = false;
 
     public GameObject DialogBox;
     public TMP_Text Dialog;
@@ -32,19 +33,50 @@ public class ScenarioManager : MonoBehaviour
     private Vector2 bottomBarOriginalPos;
     private Vector3 cinematicPosition;
 
+    // scene0 - falling
+
+    // scene1 - getCursor
+    public bool getCursor = false;
+
+    // scene2 - open last message and photo
+    public bool openLastMessage = false;
+    public bool openLastPhoto = false;
+
+    // scene3 - try open zip
+    public bool tryOpenZip = false;
+
+    // scene4 - see zipper
+    public bool seeZipper = false;
+
+    // scene5 - get zipper
+    public bool getZipper = false;
+
+    // scene6 - openPassword
+    public bool openPassword = false;
+
+    // scene7 - enterSecrets
+    public bool enterSecrets = false;
+
+    // scene8 - removeAds
+    public bool removeAds = false;
+
+    // scene9 - enterEscape
+    public bool enterEscape = false;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
         DialogBox.SetActive(false);
-        string json = File.ReadAllText(Path.Combine(Application.dataPath, "Dialog.json"));
+        //string json = File.ReadAllText(Path.Combine(Application.dataPath, "Dialog.json"));
+        string json = Resources.Load<TextAsset>("Dialog").text;
         DialogFile = JArray.Parse(json);
     }
 
@@ -57,24 +89,30 @@ public class ScenarioManager : MonoBehaviour
         // UI 오브젝트 초기 위치 저장
         topBarOriginalPos = topBar.rectTransform.anchoredPosition;
         bottomBarOriginalPos = bottomBar.rectTransform.anchoredPosition;
-
-        if (false)
+        
+        if (true)
         {
+            StopKey = true;
             StartCoroutine(MovePlayerToCenter());
         }
         else
         {
-            CurrentScene++;
+            StopKey = false;
+            PlayerInteract.Instance.HasCursor = true;
+            PlayerInteract.Instance.HasZipper = true;
+            PlayerInteract.Instance.HasHidden = true;
+            FileSystemManager.Instance.ShowHidden = true;
+            CurrentScene=9;
         }
 
     }
 
     private IEnumerator MovePlayerToCenter()
     {
-        IsStarting = true;
+        StopKey = true;
         // 플레이어 시작 위치를 화면 바깥 위쪽으로 설정
-        Vector3 startPosition = new Vector3(0, 800, player.transform.localPosition.z);
-        Vector3 targetPosition = new Vector3(0, 0, player.transform.localPosition.z);
+        Vector3 startPosition = new(0, 800, player.transform.localPosition.z);
+        Vector3 targetPosition = new(0, 0, player.transform.localPosition.z);
         player.transform.localPosition = startPosition;
 
         float duration = 1f; // 이동 시간
@@ -94,6 +132,7 @@ public class ScenarioManager : MonoBehaviour
         player.transform.localPosition = targetPosition;
         yield return StartCoroutine(PlayerCrashAnimation(targetPosition));
         yield return new WaitForSeconds(1.5f);
+        StopKey = true;
         // StartDialog 호출
         StartDialog();
     }
@@ -147,38 +186,53 @@ public class ScenarioManager : MonoBehaviour
 
     public void StartDialog()
     {
-        IsStarting = true;
-        cinematicPosition = calculatePosition();
+        cinematicPosition = CalculatePosition();
         PlayerInteract.Instance.InteractMessage.SetActive(false);
-        DialogEnumerator = ((JArray)DialogFile[CurrentScene++]["List"]).GetEnumerator();
+        DialogEnumerator = ((JArray)DialogFile[CurrentScene]["List"]).GetEnumerator();
         DialogEnumerator.MoveNext();
         Dialog.text = DialogEnumerator.Current.ToString();
-        StartCoroutine(PlayCinematicEffect());
+        StartCoroutine(StartDialogSequence());
+    }
+    private IEnumerator StartDialogSequence()
+    {
+        CurrentScene += 1;
+        StopKey = true;
+        yield return StartCoroutine(PlayCinematicEffect(true));
+        DialogKey = true;
     }
 
     public void EndDialog()
     {
-        IsStarting = false;
-        StartCoroutine(PlayCinematicEffect());
+        StartCoroutine(EndDialogSequence());
     }
 
-    private IEnumerator PlayCinematicEffect()
+    private IEnumerator EndDialogSequence()
     {
-        if (!IsStarting) DialogBox.SetActive(false);
-        float elapsedTime = 0f;
-        float startSize = IsStarting ? originalSize : cinematicZoom;
-        float targetSize = IsStarting ? cinematicZoom : originalSize;
+        DialogKey = false;
+        yield return StartCoroutine(PlayCinematicEffect(false));
+        StopKey = false;
+        
+    }
 
-        Vector3 startPosition = IsStarting ? originalPosition : cinematicPosition;
-        Vector3 targetPosition = IsStarting ? cinematicPosition : originalPosition;
+    private IEnumerator PlayCinematicEffect(bool isStart)
+    {
+        StopKey = true;
+        DialogKey = false;
+        if (!isStart) DialogBox.SetActive(false);
+        float elapsedTime = 0f;
+        float startSize = isStart ? originalSize : cinematicZoom;
+        float targetSize = isStart ? cinematicZoom : originalSize;
+
+        Vector3 startPosition = isStart ? originalPosition : cinematicPosition;
+        Vector3 targetPosition = isStart ? cinematicPosition : originalPosition;
 
         var barMoving = 200f;
 
-        Vector2 topStartPos = IsStarting ? topBarOriginalPos : new Vector2(0, Screen.height - barMoving);
-        Vector2 topTargetPos = IsStarting ? new Vector2(0, Screen.height - barMoving) : topBarOriginalPos;
+        Vector2 topStartPos = isStart ? topBarOriginalPos : new Vector2(0, Screen.height - barMoving);
+        Vector2 topTargetPos = isStart ? new Vector2(0, Screen.height - barMoving) : topBarOriginalPos;
 
-        Vector2 bottomStartPos = IsStarting ? bottomBarOriginalPos : new Vector2(0, -Screen.height + barMoving);
-        Vector2 bottomTargetPos = IsStarting ? new Vector2(0, -Screen.height + barMoving) : bottomBarOriginalPos;
+        Vector2 bottomStartPos = isStart ? bottomBarOriginalPos : new Vector2(0, -Screen.height + barMoving);
+        Vector2 bottomTargetPos = isStart ? new Vector2(0, -Screen.height + barMoving) : bottomBarOriginalPos;
 
         while (elapsedTime < animationDuration)
         {
@@ -205,10 +259,12 @@ public class ScenarioManager : MonoBehaviour
         topBar.rectTransform.anchoredPosition = topTargetPos;
         bottomBar.rectTransform.anchoredPosition = bottomTargetPos;
 
-        if (IsStarting) DialogBox.SetActive(true);
+        if (isStart) DialogBox.SetActive(true);
+
+        if (!isStart) DialogBox.SetActive(false);
     }
 
-    private Vector3 calculatePosition()
+    private Vector3 CalculatePosition()
     {
         var ret = player.transform.localPosition;
         ret.x = Mathf.Clamp(ret.x, -160, 160);
@@ -216,21 +272,73 @@ public class ScenarioManager : MonoBehaviour
         ret.z = originalPosition.z;
         return ret;
     }
+    private int didx = 0;
 
     private void Update()
     {
-        if (!IsStarting) return;
+        switch (CurrentScene)
+        {
+            case 1:
+                if (getCursor) StartDialog();
+                break;
+            case 2:
+                if (openLastMessage && openLastPhoto) StartDialog();
+                break;
+            case 3:
+                if (tryOpenZip) StartDialog();
+                break;
+            case 4:
+                if (seeZipper) StartDialog();
+                break;
+            case 5:
+                if (getZipper) StartDialog();
+                break;
+            case 6:
+                if (openPassword) StartDialog();
+                break;
+            case 7:
+                if (enterSecrets) StartDialog();
+                break;
+            case 8:
+                if (removeAds) StartDialog();
+                break;
+            case 9:
+                if (enterEscape) StartDialog();
+                break;
+            default:
+                break;
+        }
+
+        if (!DialogKey) return;
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (DialogEnumerator.MoveNext())
+            {
                 Dialog.text = DialogEnumerator.Current.ToString();
+                if (CurrentScene == 10)
+                {
+                    if (didx == 1)
+                    {
+                        FinalWindow.Instance.back.SetActive(true);
+                    }
+                    else if (didx == 2)
+                    {
+                        FinalWindow.Instance.CreateWarningWindow();
+                    }
+                }
+                didx++;
+            }
             else
             {
-                IsStarting = false;
                 DialogBox.SetActive(false);
+                if (CurrentScene == 5) NodeIconRunner.Instance.setSpeed(500);
                 EndDialog();
+                if (CurrentScene == 10) FinalWindow.Instance.StartSpawning();
+                didx = 0;
             }
         }
+        
+
     }
 
 

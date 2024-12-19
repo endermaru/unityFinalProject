@@ -1,101 +1,115 @@
 {
-  "Name": "Root",
-  "NodeType": "Folder",
-  "Children": [
-	{
-      "Name": "Desktop",
-      "NodeType": "Folder",
-      "Children": [
-        {
-          "Name": "내 컴퓨터",
-          "NodeType": "Computer",
-        },
+	"Name": "Root",
+	"NodeType": "Folder",
+	"Children": [
 		{
-			"Name":"go.exe",
-			"NodeType":"Exe",
-		},
-		{
-		  "Name": "Folder1",
-		  "NodeType": "Folder",
-		  "Children": [
+			"Name": "Desktop",
+			"NodeType": "Folder",
+			"Children": [
 			{
-			  "Name": "File1.txt",
-			  "NodeType": "TextFile",
-			  "Content": "Hello, world!"
-			}
-		  ]
-		},
-		{
-		  "Name": "File2.txt",
-		  "NodeType": "TextFile",
-		  "Password": "123",
-		  "Content": "Hell3o, world!"
-		},
-		{
-			"Name":"myZip.zip",
-			"NodeType": "ZipFile",
-			"Content": {
-				"Name": "myZip",
-				"NodeType": "Folder",
-				"Children": [
+				"Name": "내 컴퓨터",
+				"NodeType": "Computer",
+			},
+			{
+				"Name":"player23.png",
+				"NodeType":"Image",
+			},
+			{
+				"Name": "day117.txt",
+				"NodeType": "TextFile",
+				"Content": "이 컴퓨터에 갇힌 지 117일째. 더 이상 희망이 보이지 않는다...\n\n처음엔 내가 이곳에 갇혔다는 사실을 믿을 수 없었다. 하지만 아무리 눈을 비벼도, 아무리 기다려도 현실은 바뀌지 않았다.\n\n이곳은 오래된 운영체제 속에 만들어진 끝없는 공간. 폴더와 아이콘은 나를 조롱하듯 끝도 없이 늘어나고, 시간은 마치 멈춰버린 것 같다.\n\n<color=red>Escape.exe.</color=red> 그 파일만 찾으면 나갈 수 있다. 적어도… 그게 내가 알 수 있는 유일한 단서다.\n\n하지만 하루가 가고, 파일을 열고, 끝없는 폴더를 뒤질수록 프로그램을 찾기는 커녕 이 공간이 나를 집어삼키고 있다는 걸 깨달았다.\n\n이제 나는 더는 움직일 힘도 없고, 나를 구해줄 사람도 없다... 하지만... 누군가 이 파일을 읽고 있다면, 부디 내가 남긴 이 기록을 기억해주길 바란다.\n\n너만은 나처럼 되지 말고, 이 공간을 끝내고 나가줘."
+			},
+			{
+				"Name":"커서",
+				"NodeType":"Item",
+			},
+			{
+				"Name":"Hope",
+				"NodeType":"Folder",
+				"Children":[
 					{
-					  "Name": "File1.txt",
-					  "NodeType": "TextFile",
-					  "Content": "Hello, world!"
-					}
+						"Name":"Vaccine.exe",
+						"NodeType":"Exe",
+					},
+					{
+						"Name": "devlog#928.txt",
+						"NodeType": "TextFile",
+						"Content": "<color=#627a63>나는… 방금 무엇을 만든 거지?\n머릿속이 혼란스럽다. 하지만 결과물은 내 손에 남아 있다. 악성코드를 무찌를 수 있는 유일한 도구다.\n\n어쩌면 이걸 만들지 말았어야 했을지도 모른다.\n이 시스템은 내가 지켜야 하는 세계다.\n그런데… 나는 이걸로 무엇을 파괴하려는 거지?\n아니면 내가 스스로 만들어낸 덫?\n\n탈출을 시도하는 자들에게 희망이 될지도 모른다.\n하지만, 동시에 이 프로그램은 이 시스템의 모든 균형을 파괴할 수도 있다.\n\n모든 것이 잠깐의 평온 속에 잠겼다. 하지만 나는 알고 있다.\n그 평온은 오래가지 않을 것이다.\n\n<color=red><i>정말로 너는 이■로 무언가를 바꿀 수 있다■ 믿는 ■냐? 넌 ■미 통제■을 잃었어.</i></color>\n\n왜냐하면… 나는 여전히 두려워하고 있다.\n이 프로그램을 사용할 자들이 탈출을 시도할 때, 나는…\n과연 그들을 도울 수 있을까?\n아니면… 다시 그들을 막으려 들까?</color></color>"
+					},
 				]
 			}
-			
+			]
 		},
 		{
-			"Name":"커서",
-			"NodeType":"Item",
+			"Name": "day001.txt",
+			"NodeType": "TextFile",
+			"Content": "처음엔 단순한 오류일 줄 알았다. 힘들게 구한 한정판 게임 CD를 실행하고 있었는데 갑자기 화면이 깜빡이더니, 눈을 떠보니 이 이상한 공간에 있었다.\n\n바탕화면, 폴더, 아이콘... 이건 마치 컴퓨터 시스템 속에 갇혀버린 것 같다.\n분명 어딘가에 유용한 도구나 힌트가 있을 것이다. 다른 폴더들을 찾아봐야겠다."
 		},
 		{
-			"Name":"map.jpg",
-			"NodeType":"Image",
+			"Name": "Downloads",
+			"NodeType": "Folder",
+			"Children": [
+				{	
+					"Name":"수상한 파일.exe",
+					"NodeType":"Exe",
+				},
+				{
+					"Name":"수상한 파일2.exe",
+					"NodeType":"Exe",
+				},
+			]
 		},
-      ]
-    },
-    {
-      "Name": "Folder1",
-      "NodeType": "Folder",
-      "Children": [
-        {
-          "Name": "File1.txt",
-          "NodeType": "TextFile",
-          "Content": "Hello, world!"
-        }
-      ]
-    },
-	{
-      "Name": "Folder112",
-      "NodeType": "Folder",
-      "Children": [
-        {
-          "Name": "File2.txt",
-          "NodeType": "TextFile",
-          "Content": "Hell3o, world!"
-        }
-      ]
-    },
-	{
-      "Name": "Documents",
-      "NodeType": "Folder",
-      "Children": [
-        {
-          "Name": "AssetFile1.txt",
-          "NodeType": "TextFile",
-		  "Hidden": "True",
-		  "Password": "123",
-          "Content": "Hello, world!",
-        },
 		{
-			"Name":"숨김 해제",
-			"NodeType":"Item",
+			"Name": "Documents",
+			"NodeType": "Folder",
+			"Children": [
+				{
+					"Name": "DocPass.txt",
+					"NodeType": "TextFile",
+					"Password": "123",
+					"Content": "Hell3o, world!"
+				},
+			]
 		},
-      ]
-    },
-	
-  ]
+		{
+			"Name": "Pictures",
+			"NodeType": "Folder",
+			"Children": [
+
+			]
+		},
+		{
+			"Name": "Programs",
+			"NodeType": "Folder",
+			"Children": [
+				{
+					"Name":"tools.zip",
+					"NodeType": "ZipFile",
+					"Content": {
+						"Name": "tools",
+						"NodeType": "Folder",
+						"Children": [
+							{
+								"Name":"숨김 해제",
+								"NodeType":"Item",
+							}
+						]
+					}
+					
+				},
+			]
+		},
+		{
+			"Name": "ImportantFiles",
+			"NodeType": "Folder",
+			"Hidden":"True",
+			"Children": [
+				{
+					"Name": "Password.txt",
+					"NodeType": "TextFile",
+					"Content": "q1w2e3r4"
+				},
+			]
+		},
+	]
 }

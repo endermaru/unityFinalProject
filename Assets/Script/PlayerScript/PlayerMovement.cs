@@ -2,16 +2,12 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed;
     public Sprite idleSprite; // 정지 상태 스프라이트
-    public Sprite[] walkSprites; // 걷는 애니메이션 스프라이트
-    public float animationSpeed = 0.2f; // 애니메이션 속도
 
     private SpriteRenderer spriteRenderer;
     private Vector3 moveDirection; // 현재 이동 방향
     private Vector3 lastMoveDirection; // 마지막으로 이동한 방향
-    private float animationTimer;
-    private int currentFrame;
 
     public float screenWidth = 960f; // x 경계값
     public float screenHeight = 540f; // y 경계값
@@ -22,11 +18,12 @@ public class PlayerMovement : MonoBehaviour
         // SpriteRenderer 컴포넌트 가져오기
         spriteRenderer = GetComponent<SpriteRenderer>();
         lastMoveDirection = Vector3.zero; // 초기값 설정
+        spriteRenderer.sprite = idleSprite;
     }
 
     void Update()
     {
-        if (ScenarioManager.Instance.IsStarting) return;
+        if (ScenarioManager.Instance.StopKey) return;
         // 입력 처리
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
@@ -57,67 +54,15 @@ public class PlayerMovement : MonoBehaviour
 
         // 경계 처리
         HandleScreenWrap();
-
-        // 애니메이션 처리
-        UpdateAnimation();
     }
 
     void HandleScreenWrap()
     {
         Vector3 position = transform.position;
 
-        int playerWidthHalf = 25;
-        int playerHeightHalf = 35;
-
-
-        // X 경계 처리
-        if (position.x > screenWidth)
-        {
-            position.x = screenWidth;
-        }
-        else if (position.x < -screenWidth + playerWidthHalf)
-        {
-            position.x = -screenWidth + playerWidthHalf;
-        }
-
-        // Y 경계 처리
-        if (position.y > screenHeight - playerHeightHalf)
-        {
-            position.y = screenHeight - playerHeightHalf;
-        }
-        else if (position.y < -screenHeight)
-        {
-            position.y = -screenHeight;
-        }
+        position.x = Mathf.Clamp(position.x, -screenWidth+25, screenWidth);
+        position.y = Mathf.Clamp(position.y, -screenHeight-20, screenHeight-55);
 
         transform.position = position;
-    }
-
-
-
-    void UpdateAnimation()
-    {
-        if (moveDirection != Vector3.zero)
-        {
-            // 걷는 애니메이션
-            if (walkSprites != null && walkSprites.Length > 0)
-            {
-                animationTimer += Time.deltaTime;
-                if (animationTimer >= animationSpeed)
-                {
-                    animationTimer = 0f;
-                    currentFrame = (currentFrame + 1) % walkSprites.Length;
-                    spriteRenderer.sprite = walkSprites[currentFrame];
-                }
-            }
-        }
-        else
-        {
-            // 정지 상태
-            if (idleSprite != null)
-            {
-                spriteRenderer.sprite = idleSprite;
-            }
-        }
     }
 }

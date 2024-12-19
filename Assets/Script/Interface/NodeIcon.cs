@@ -5,26 +5,39 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Unity.VisualScripting;
 using System.Collections;
+using JetBrains.Annotations;
 
 public class NodeIcon : MonoBehaviour, IComponent
 {
     string IComponent.ComponentType => "NodeIcon";
 
-    public void Interact()
-    {
+    public void Interact() {
+        if (Usage == "Taskbar")
+        {
+            Canvas c = Node.NodeType switch
+            {
+                NodeT.Folder => WindowManager.Instance.FileExplorer,
+                NodeT.TextFile => WindowManager.Instance.TextEditor,
+                NodeT.Image => WindowManager.Instance.ImageViewer,
+                _ => null,
+            };
+            if (c == null) return;
+            WindowManager.Instance.OpenWindow(c);
+            return;
+        }
         if (!PlayerInteract.Instance.HasCursor)
         {
             if (Node.NodeType == NodeT.Item)
             {
-                if (Node.Name == "커서")
+                if (Node.Name == "Cursor")
                 {
                     PlayerInteract.Instance.HasCursor = true;
+                    ScenarioManager.Instance.getCursor = true;
                 }
                 FolderNode parent = Node.Parent as FolderNode;
                 parent.Children.Remove(Node);
                 FileExplorer.Instance.Display();
                 Desktop.Instance.Display();
-                ScenarioManager.Instance.StartDialog();
             }
             return;
         }
@@ -34,14 +47,31 @@ public class NodeIcon : MonoBehaviour, IComponent
                 FileSystemManager.Instance.ChangeCurrentNode(FileSystemManager.Instance.Root);
                 FileExplorer.Instance.Display();
                 WindowManager.Instance.OpenWindow(WindowManager.Instance.FileExplorer);
+                if (ScenarioManager.Instance.CurrentScene < 3)
+                    ScenarioManager.Instance.CurrentScene = 3;
                 break;
             case NodeT.Folder:
                 FileSystemManager.Instance.ChangeCurrentNode(Node as FolderNode);
                 FileExplorer.Instance.Display();
                 WindowManager.Instance.OpenWindow(WindowManager.Instance.FileExplorer);
+                if (Node.Name == "Secrets")
+                {
+                    if (ScenarioManager.Instance.CurrentScene < 7)
+                        ScenarioManager.Instance.CurrentScene = 7;
+                    ScenarioManager.Instance.enterSecrets = true;
+                }
+                else if (Node.Name == "Escape")
+                {
+                    ScenarioManager.Instance.enterEscape = true;
+                    WindowManager.Instance.OpenWindow(WindowManager.Instance.FinalWindow);
+                }
                 break;
             case NodeT.TextFile:
                 FileNode textNode = Node as FileNode;
+                if (textNode.Name == "day1■7.txt")
+                {
+                    ScenarioManager.Instance.openLastMessage = true;
+                }
                 if (textNode.Password != null)
                 {
                     PasswordWindow.Instance.SetFile(textNode);
@@ -55,10 +85,20 @@ public class NodeIcon : MonoBehaviour, IComponent
                 }
                 break;
             case NodeT.ZipFile:
+                if (!PlayerInteract.Instance.HasZipper)
+                {
+                    ScenarioManager.Instance.tryOpenZip = true;
+                    return;
+                }
                 FileNode zipNode = Node as FileNode;
                 ZipExtractWindow.Instance.SetFile(zipNode);
                 if (zipNode.Password != null)
                 {
+                    if (ScenarioManager.Instance.CurrentScene <= 6)
+                    {
+                        ScenarioManager.Instance.CurrentScene = 6;
+                        ScenarioManager.Instance.openPassword = true;
+                    }
                     PasswordWindow.Instance.SetFile(zipNode);
                     WindowManager.Instance.OpenWindow(WindowManager.Instance.PasswordWindow);
                 }
@@ -69,16 +109,20 @@ public class NodeIcon : MonoBehaviour, IComponent
                 break;
             case NodeT.Image:
                 FileNode ImageNode = Node as FileNode;
+                if (ImageNode.Name == "body.png")
+                {
+                    ScenarioManager.Instance.openLastPhoto = true;
+                }
                 ImageViewer.Instance.SetFile(ImageNode);
                 ImageViewer.Instance.Display();
                 WindowManager.Instance.OpenWindow(WindowManager.Instance.ImageViewer);
 
                 break;
             case NodeT.Item:
-                if (Node.Name == "숨김 해제")
+                if (Node.Name == "Seeker")
                 {
+                    PlayerInteract.Instance.HasHidden = true;
                     FileSystemManager.Instance.ShowHidden = true;
-                    
                 }
                 
                 // use(delete item)
@@ -89,15 +133,17 @@ public class NodeIcon : MonoBehaviour, IComponent
 
                 break;
             case NodeT.Exe:
-                if (Node.Name == "수상한 파일.exe")
-                {
-                    AdPopup.Instance.Display();
-                }
-                else if (Node.Name == "수상한 파일2.exe")
-                {
-                    AdPopup.Instance.showAd = false;
-                }
+                ExeWindow.Instance.SetFile(Node as FileNode);
+                ExeWindow.Instance.Display();
+                WindowManager.Instance.OpenWindow(WindowManager.Instance.ExeWindow);
                 break;
+            case NodeT.Ink:
+                string path = ((InkNode)Node).Path;
+                FileSystemManager.Instance.ChangeCurrentNode(FileSystemManager.Instance.FindNode(path) as FolderNode);
+                FileExplorer.Instance.Display();
+                WindowManager.Instance.OpenWindow(WindowManager.Instance.FileExplorer);
+                break;
+
         }
     }
 
@@ -134,6 +180,8 @@ public class NodeIcon : MonoBehaviour, IComponent
         {
             HighlightBox.enabled = true;
             if (Node.NodeType==NodeT.Item) PlayerInteract.Instance.ShowMessage("획득 (E)");
+            else if (Node.NodeType==NodeT.ZipFile && !PlayerInteract.Instance.HasZipper)
+                PlayerInteract.Instance.ShowMessage("열 수 없음");
             else PlayerInteract.Instance.ShowMessage("열기 (E)");
         }
     }

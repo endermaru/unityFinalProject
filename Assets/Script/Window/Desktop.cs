@@ -15,7 +15,7 @@ public class Desktop : WindowComponent
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
     }
@@ -35,7 +35,7 @@ public class Desktop : WindowComponent
         {
             if (childnode.Name == FSConstants.ParentName) continue;
 
-            if (!FileSystemManager.Instance.ShowHidden && childnode.Hidden) continue;
+            if (!PlayerInteract.Instance.HasHidden && childnode.Hidden) continue;
 
             GameObject nodeObject = Instantiate(NodeIcon, NodeContainer);
             NodeIcon nodeIcon = nodeObject.GetComponent<NodeIcon>();

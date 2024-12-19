@@ -14,6 +14,8 @@ public class NodeIconManager : ScriptableObject
     public Sprite EmailIcon;
     public Sprite ExeIcon;
     public Sprite ImageIcon;
+    public Sprite KeyIcon;
+    public Sprite InkIcon;
 
     public Sprite CursorIcon;
     public Sprite HiddenIcon;
@@ -35,11 +37,15 @@ public class NodeIconManager : ScriptableObject
             case NodeT.Exe:
                 return ExeIcon;
             case NodeT.Item:
-                if (node.Name == "Ä¿¼­") return CursorIcon;
-                if (node.Name == "¼û±è ÇØÁ¦") return HiddenIcon;
+                if (node.Name == "Cursor") return CursorIcon;
+                if (node.Name == "Seeker") return HiddenIcon;
                 else return DefaultIcon;
             case NodeT.Image:
                 return ImageIcon;
+            case NodeT.Key:
+                return KeyIcon;
+            case NodeT.Ink:
+                return InkIcon;
             default:
                 return DefaultIcon;
         }

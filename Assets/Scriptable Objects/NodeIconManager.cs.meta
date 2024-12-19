@@ -11,7 +11,11 @@ MonoImporter:
   - ZipFileIcon: {fileID: 6137907615203100133, guid: 345a450ba3545d9458c40459b8a419e0, type: 3}
   - EmailIcon: {fileID: 754352307031186287, guid: 56d863d30cf30034a9204a4b2e796fce, type: 3}
   - ExeIcon: {fileID: -5484203586563927883, guid: 1e7b75fb80902d84283a65b9c2138d29, type: 3}
+  - ImageIcon: {instanceID: 0}
+  - KeyIcon: {instanceID: 0}
+  - InkIcon: {fileID: 5308161740594130888, guid: 93861ff4cd704f748a9f999a137992f2, type: 3}
   - CursorIcon: {fileID: 6554736390298987251, guid: 2212f8dad8de5be4c844eb914b45830e, type: 3}
+  - HiddenIcon: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

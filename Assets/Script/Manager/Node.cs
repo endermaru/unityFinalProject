@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using static Unity.VisualScripting.Metadata;
 
 public enum NodeT
 {
+    Default,
+    Key,
     Folder,
     TextFile,
     Computer,
@@ -13,6 +14,7 @@ public enum NodeT
     Exe,
     Image,
     Item,
+    Ink,
 }
 
 public class Node
@@ -31,6 +33,16 @@ public class Node
     }
 }
 
+public class InkNode : Node
+{
+    public InkNode(string name, Node parent, bool hidden, string path)
+        : base(name, parent, NodeT.Ink, hidden)
+    {
+        Path = path;
+    }
+
+    public string Path { get; set; }
+}
 
 public class FolderNode : Node
 {

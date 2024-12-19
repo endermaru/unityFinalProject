@@ -17,12 +17,16 @@ public class PlayerInteract : MonoBehaviour
     public bool HasCursor = false;
     public GameObject Cursor;
 
+    public bool HasZipper = false;
+
+    public bool HasHidden = false;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -41,11 +45,12 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (ScenarioManager.Instance.IsStarting) return;
+            if (ScenarioManager.Instance.StopKey) return;
             fronts = WindowManager.Instance.FrontObjects(collidingObjects);
-            //Canvas frontCanvas = fronts[0].GetComponent<Canvas>();
+
             foreach (GameObject obj in fronts)
             {
+                if (obj == null) continue;
                 IComponent component = obj.GetComponent<IComponent>();
                 component?.Interact();
             }

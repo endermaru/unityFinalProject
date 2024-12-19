@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09a2fc4cd0b125a45a946bbf8175a9ef, type: 3}
   m_Name: NodeIconManager
   m_EditorClassIdentifier: 
-  DefaultIcon: {fileID: 8149683057079042568, guid: e8e13269ac338244aaac63c4ca4ccae0, type: 3}
+  DefaultIcon: {fileID: -2369867600477939372, guid: fc9dbc3e84bf50446a234bd95b3c9218, type: 3}
   FolderIcon: {fileID: 8631275813819379827, guid: 211cb2d4de3a6724b8e67cd0264aafc1, type: 3}
   TextFileIcon: {fileID: 8149683057079042568, guid: e8e13269ac338244aaac63c4ca4ccae0, type: 3}
   ComputerIcon: {fileID: 1152356169552002576, guid: ae5d4dab2e01cca44a91bb8d6866246f, type: 3}
@@ -20,5 +20,7 @@ MonoBehaviour:
   EmailIcon: {fileID: 754352307031186287, guid: 56d863d30cf30034a9204a4b2e796fce, type: 3}
   ExeIcon: {fileID: -5484203586563927883, guid: 1e7b75fb80902d84283a65b9c2138d29, type: 3}
   ImageIcon: {fileID: 1208040086343421634, guid: 926b62c5228485642be16dab21141053, type: 3}
+  KeyIcon: {fileID: 1095141833252711340, guid: dd0b079f4f65dd14b842717832c2410e, type: 3}
+  InkIcon: {fileID: 5308161740594130888, guid: 93861ff4cd704f748a9f999a137992f2, type: 3}
   CursorIcon: {fileID: 6554736390298987251, guid: 2212f8dad8de5be4c844eb914b45830e, type: 3}
   HiddenIcon: {fileID: 2545779934182465545, guid: b488cf0c8b3367b4da0a19f7df0bf11c, type: 3}

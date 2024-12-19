@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UnityEditor.PackageManager.UI;
+using System.Linq;
 using UnityEngine;
 
 public class WindowManager : MonoBehaviour
@@ -15,6 +15,8 @@ public class WindowManager : MonoBehaviour
     public Canvas ZipExtractWindow;
     public Canvas ImageViewer;
     public Canvas AdPopup;
+    public Canvas ExeWindow;
+    public Canvas FinalWindow;
     public List<Canvas> AllWindows;
 
     private void Awake()
@@ -25,7 +27,7 @@ public class WindowManager : MonoBehaviour
         AllWindows = new List<Canvas>()
         {
             Desktop, FileExplorer, TextEditor, PasswordWindow,
-            Taskbar, ZipExtractWindow, ImageViewer, AdPopup,
+            Taskbar, ZipExtractWindow, ImageViewer, AdPopup, ExeWindow, FinalWindow,
         };
     }
 
@@ -50,9 +52,12 @@ public class WindowManager : MonoBehaviour
 
     public List<GameObject> FrontObjects(List<GameObject> collidingList)
     {
+        var validObjects = collidingList.Where(obj => obj != null).ToList();
+
         Canvas maxC = Desktop;
-        foreach (var obj in collidingList)
+        foreach (var obj in validObjects)
         {
+            if (obj == null) continue;
             var window = WhoseCanvas(obj);
             if (window == null) continue;
             if (window.sortingOrder > maxC.sortingOrder)
@@ -60,21 +65,22 @@ public class WindowManager : MonoBehaviour
                 maxC = window;
             }
         }
+
         List<GameObject> ret = new()
         {
             maxC.gameObject
         };
-        
 
-        foreach (GameObject obj in collidingList)
+        foreach (GameObject obj in validObjects)
         {
+            if (obj == null) continue;
             if (obj != maxC.gameObject && WhoseCanvas(obj) == maxC)
             {
                 ret.Add(obj);
             }
         }
-        
-        return ret;
+
+        return ret.Where(obj => obj != null).ToList();
     }
 
     
@@ -108,6 +114,11 @@ public class WindowManager : MonoBehaviour
         if (windowComponent != null) windowComponent.SetWindowActive(true);
 
         TaskbarWindow.Instance.Display();
+    }
+
+    public void StopWindow(Canvas window)
+    {
+        window.sortingOrder = Desktop.sortingOrder - 1;
     }
 
     public Canvas GetMaxSortingOrderCanvas()

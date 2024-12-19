@@ -7,6 +7,10 @@ public class TaskbarWindow : WindowComponent
     public GameObject NodeIcon;
     public override string ComponentName => "Taskbar";
 
+    public GameObject Cursor;
+    public GameObject Zipper;
+    public GameObject Hidden;
+
     public static TaskbarWindow Instance { get; private set; }
 
     private void Awake()
@@ -14,12 +18,15 @@ public class TaskbarWindow : WindowComponent
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+        Cursor.SetActive(false);
+        Zipper.SetActive(false);
+        Hidden.SetActive(false);
     }
 
     public override void Display()
@@ -40,8 +47,11 @@ public class TaskbarWindow : WindowComponent
             {
                 "FileExplorer" => FileSystemManager.Instance.CurrentNode,
                 "TextEditor" => TextEditor.Instance.currentTextFile,
-                "ZipExtractWindow" => ZipExtractWindow.Instance.Node,
                 "ImageViewer" => ImageViewer.Instance.ImageNode,
+                "ZipExtractWindow" => ZipExtractWindow.Instance.Node,
+                "PasswordWindow" => new Node("", null, NodeT.Key, false),
+                "AdPopup" => new Node("",null, NodeT.Default, false),
+                "ExeWindow" => ExeWindow.Instance.ExeNode,
                 _ => null,
             };
             if (icon == null) continue;
@@ -60,5 +70,12 @@ public class TaskbarWindow : WindowComponent
     void Start()
     {
         Display();
+    }
+
+    private void Update()
+    {
+        Cursor.SetActive(PlayerInteract.Instance.HasCursor);
+        Zipper.SetActive(PlayerInteract.Instance.HasZipper);
+        Hidden.SetActive(PlayerInteract.Instance.HasHidden);
     }
 }

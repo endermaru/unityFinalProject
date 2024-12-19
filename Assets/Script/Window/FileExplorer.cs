@@ -15,7 +15,7 @@ public class FileExplorer : WindowComponent
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
     }
@@ -28,7 +28,7 @@ public class FileExplorer : WindowComponent
         }
 
         FolderNode current = FileSystemManager.Instance.CurrentNode;
-        WindowName.text = current.Name;
+        WindowName.text = FileSystemManager.Instance.GetPath(current);
 
         // 자식 노드 리스트 가져오기
         List<Node> childnodes = current.Children;
@@ -38,7 +38,7 @@ public class FileExplorer : WindowComponent
         {
             if (childnode.NodeType == NodeT.Computer) continue;
 
-            if (!FileSystemManager.Instance.ShowHidden && childnode.Hidden) continue;
+            if (!PlayerInteract.Instance.HasHidden && childnode.Hidden) continue;
 
             GameObject nodeObject = Instantiate(NodeIcon, NodeContainer);
             NodeIcon nodeIcon = nodeObject.GetComponent<NodeIcon>();

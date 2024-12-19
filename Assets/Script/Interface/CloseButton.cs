@@ -28,7 +28,7 @@ public class CloseButton : MonoBehaviour, IComponent
         WindowManager.Instance.CloseWindow(canvas);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && PlayerInteract.Instance.IsInteractValid(canvas.gameObject))
         {
@@ -40,7 +40,7 @@ public class CloseButton : MonoBehaviour, IComponent
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public virtual void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {

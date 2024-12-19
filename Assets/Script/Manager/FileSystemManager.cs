@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public static class FSConstants
 {
-    public const string ParentName = "상위 폴더로"; // 상위 폴더 이름
+    public const string ParentName = "[..Parent]"; // 상위 폴더 이름
 }
 
 public class FileSystemManager : MonoBehaviour
@@ -27,7 +27,7 @@ public class FileSystemManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
             InitializeFileSystem();
         }
         else
@@ -35,8 +35,8 @@ public class FileSystemManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        saveFilePath = Path.Combine(Application.dataPath, "FileSystem.json");  // 개발 중에는 Assets 폴더
-        //saveFilePath = Path.Combine(Application.persistentDataPath, "FileSystem.json"); // 빌드 후에는 영구 저장 경로
+        //saveFilePath = Path.Combine(Application.dataPath, "FileSystem.json");  // 개발 중에는 Assets 폴더
+        saveFilePath = Path.Combine(Application.persistentDataPath, "FileSystem.json"); // 빌드 후에는 영구 저장 경로
         LoadFileSystem(); // 게임 시작 시 로드
         CurrentNode = Root;
         //PrintTree(Root);
@@ -57,43 +57,18 @@ public class FileSystemManager : MonoBehaviour
         }
     }
 
-
-    // 파일 시스템 저장
-    public void SaveFileSystem()
-    {
-        try
-        {
-            string json = JsonConvert.SerializeObject(Root, Formatting.Indented);
-            File.WriteAllText(saveFilePath, json);
-            Debug.Log($"FileSystem saved to {saveFilePath}");
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError($"Failed to save FileSystem: {ex.Message}");
-        }
-    }
-
     // 파일 시스템 로드
     public void LoadFileSystem()
     {
         try
         {
-            if (File.Exists(saveFilePath))
-            {
-                string json = File.ReadAllText(saveFilePath);
+            string json = Resources.Load<TextAsset>("FileSystem").text;
 
-                // JSON 데이터를 JObject로 파싱
-                JObject rootObject = JObject.Parse(json);
+            // JSON 데이터를 JObject로 파싱
+            JObject rootObject = JObject.Parse(json);
 
-                // 루트 노드를 생성
-                Root = ParseNode(rootObject, null) as FolderNode;
-
-            }
-            else
-            {
-                //Debug.LogWarning("Save file not found. Initializing new file system.");
-                InitializeFileSystem();
-            }
+            // 루트 노드를 생성
+            Root = ParseNode(rootObject, null) as FolderNode;
         }
         catch (Exception)
         {
@@ -163,6 +138,11 @@ public class FileSystemManager : MonoBehaviour
         {
             return new FileNode(name, parent, null, hidden);
         }
+        else if (nodeType == "Ink")
+        {
+            string path = jsonObject["Path"]?.ToString();
+            return new InkNode(name, parent, false, path);
+        }
 
         return null;
     }
@@ -171,6 +151,28 @@ public class FileSystemManager : MonoBehaviour
     {
         if (folder != null && folder.Name == FSConstants.ParentName) CurrentNode = folder.Parent as FolderNode;
         else CurrentNode = folder;
+        if (NodeIconRunner.Instance.getCurrentIndex() > 20 || PlayerInteract.Instance.HasZipper) return;
+        string path = GetPath(folder);
+        if (path == "Root/Tools/Trap/")
+        {
+            if (ScenarioManager.Instance.CurrentScene < 4)
+                ScenarioManager.Instance.CurrentScene = 4;
+            ScenarioManager.Instance.seeZipper = true;
+            NodeIconRunner.Instance.RunnerRun(0);
+            NodeIconRunner.Instance.RunnerRun(4);
+        }
+        else if (path == "Root/Tools/Trap/tmp-extra/") NodeIconRunner.Instance.RunnerRun(2);
+        else if (path == "Root/Tools/Trap/tmp2/") NodeIconRunner.Instance.RunnerRun(6);
+        else if (path == "Root/Tools/Trap/tmp2/tmp2-extra/") NodeIconRunner.Instance.RunnerRun(8);
+        else if (path == "Root/Tools/Trap/tmp3/") NodeIconRunner.Instance.RunnerRun(10);
+        else if (path == "Root/Tools/Trap/tmp3/tmp3-4/") NodeIconRunner.Instance.RunnerRun(12);
+        else if (path == "Root/Tools/Trap/tmp1/") NodeIconRunner.Instance.RunnerRun(14);
+        else if (path == "Root/Tools/Trap/tmp1/tmp1-4/") NodeIconRunner.Instance.RunnerRun(16);
+        else if (path == "Root/Tools/Trap/tmp1/tmp1-4/tmp1-4-1/")
+        {
+            NodeIconRunner.Instance.getTrembling();
+        }
+
     }
 
     private void InitializeFileSystem()
@@ -204,6 +206,19 @@ public class FileSystemManager : MonoBehaviour
             }
         }
         return current;
+    }
+
+    public string GetPath(FolderNode node)
+    {
+        string path = "";
+        while (node != null)
+        {
+            if (node.Name != FSConstants.ParentName)
+                path = node.Name + "/" + path;
+            node = node.Parent as FolderNode;
+        }
+
+        return path;
     }
 
 
