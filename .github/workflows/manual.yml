@@ -1,0 +1,17 @@
+name: Test Repository Secrets
+
+on:
+  workflow_dispatch: # 수동 실행을 위한 트리거
+
+jobs:
+  test-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Test accessing secrets
+        run: |
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
+          echo "EC2_HOST=${{ secrets.EC2_HOST }}"
+          echo "Secrets test completed."
