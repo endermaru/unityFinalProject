@@ -12,13 +12,5 @@ jobs:
 
       - name: Test accessing secrets
         run: |
-          if [ -z "${{ secrets.DOCKER_USERNAME }}" ]; then
-            echo "DOCKER_USERNAME is empty or not set."
-          else
-            echo "DOCKER_USERNAME is set."
-          fi
-          if [ -z "${{ secrets.EC2_HOST }}" ]; then
-            echo "EC2_HOST is empty or not set."
-          else
-            echo "EC2_HOST is set."
-          fi
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
+          echo "EC2_HOST=${{ secrets.EC2_HOST }}"
