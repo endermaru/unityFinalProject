@@ -13,4 +13,4 @@ jobs:
       - name: Debug workspace
         run: |
           pwd
-          ls -l
+          ls ${GITHUB_WORKSPACE}
