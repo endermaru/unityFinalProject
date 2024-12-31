@@ -13,4 +13,4 @@ jobs:
       - name: Debug workspace
         run: |
           pwd
-          echo ${GITHUB_WORKSPACE}/unityFinalProject
+          ls ${GITHUB_WORKSPACE}/unityFinalProject
