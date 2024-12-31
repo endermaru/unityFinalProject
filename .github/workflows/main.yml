@@ -13,4 +13,4 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Debug workspace
-        run: ls ./
+        run: ls ${GITHUB_WORKSPACE}
